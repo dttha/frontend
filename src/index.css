@@ -7,7 +7,42 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+header {
+  background-color: #13157f;
+  padding: 1rem;
 }
+
+header a{
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+main{
+  padding: 1rem;
+}
+
+.image-cover{
+  width: 370px;
+  height: 350px;
+}
+
+.products{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+}
+
+.product {
+  /* border: 1px solid #404040; */
+  /* margin: 1rem; */
+}
+
+.product img {
+  width: 100%;
+  max-width: 400px;
+}
+
+.product-info{
+  padding: 1rem;
+} 
