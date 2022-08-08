@@ -1,5 +1,4 @@
-import data from "./data";
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from "./screens/Home";
 import Product from "./screens/Product";
 import Navbar from "react-bootstrap/Navbar";

@@ -28,10 +28,20 @@ main{
   height: 350px;
 }
 
+.btn-primary{
+  background-color:#15bcaf;
+  color: #fff;
+  border: none;
+}
+
 .products{
   display: flex;
   flex-wrap: wrap;
   justify-content:center;
+}
+
+.rating span{
+  color: #15bcaf;
 }
 
 .product {
