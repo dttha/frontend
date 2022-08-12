@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useContext } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { getError } from "./utils";
+import { Store } from "../store";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -30,12 +31,11 @@ const reducer = (state, action) => {
 function Product() {
     const params = useParams();
     const { slug } = params;
-    const [state, dispatch] = useReducer(logger(reducer), {
+    const [{ loading, error, product }, dispatch] = useReducer(logger(reducer), {
         product: [],
         loading: true,
         error: '',
     })
-    const { loading, error, product } = state;
     useEffect(() => {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' })
@@ -47,7 +47,12 @@ function Product() {
             }
         }
         fetchData()
-    }, [slug])
+    }, [slug]);
+
+    const { state, dispatch: contextDispatch } = useContext(Store)
+    const addToCart = () => {
+        contextDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } })
+    }
     return (
         loading ? (<Loading />)
             : error ? (<Message variant="danger">{error}</Message>)
@@ -118,7 +123,7 @@ function Product() {
                                         {product.countInStock > 0 && (
                                             <ListGroup className="mt-3">
                                                 <div className="d-grid">
-                                                    <Button variant="primary">
+                                                    <Button onClick={addToCart} variant="primary">
                                                         Thêm vào giỏ hàng
                                                     </Button>
                                                 </div>
