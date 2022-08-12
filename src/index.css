@@ -61,3 +61,11 @@ main{
 .img-large{
   max-width: 100%;
 }
+
+.trend{
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

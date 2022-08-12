@@ -5,6 +5,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Product from "../components/Product"
 import { Helmet } from "react-helmet-async"
+import Slider from "../components/Carousel"
+import Loading from "../components/Loading"
+import Message from "../components/Message"
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -44,12 +47,13 @@ export default function Home() {
         <Helmet>
             <title>Book store</title>
         </Helmet>
-        <h1>Sách được yêu thích</h1>
+        <Slider></Slider>
+        <div className="trend">Xu hướng mua sắm</div>
         <div className="products">
             {loading ? (
-                <div>Loading...</div>
+                <Loading />
             ) : error ? (
-                <div>{error}</div>
+                    <Message variant="danger">{error}</Message>
             ) : (
                         <Row>
                             {products.map((product) => (

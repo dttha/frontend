@@ -10,6 +10,9 @@ import { useParams } from "react-router-dom"
 import logger from "use-reducer-logger";
 import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
+import Loading from "../components/Loading";
+import Message from "../components/Message";
+import { getError } from "./utils";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -40,68 +43,68 @@ function Product() {
                 const result = await axios.get(`/api/products/slug/${slug}`)
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
             } catch (err) {
-                dispatch({ type: 'FETCH_FAIL', payload: err.message })
+                dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
             }
         }
         fetchData()
     }, [slug])
     return (
-        loading ? (<div>Loading...</div>)
-            : error ? (<div>{error}</div>)
+        loading ? (<Loading />)
+            : error ? (<Message variant="danger">{error}</Message>)
                 :
                 (<div>
                     <Row>
-                        <Col md={6}>
+                        <Col md={3} className="mt-3">
                             <img className="img-large" src={product.image} alt={product.name}></img>
                         </Col>
-                        <Col md={3}>
+                        <Col md={6}>
                             <ListGroup variant="flush">
-                                <ListGroup.Item>
+                                <ListGroup className="mt-3">
                                     <Helmet>
                                         <title>{product.name}</title>
                                     </Helmet>
                                     <h1>{product.name}</h1>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     <Rating rating={product.rating} numReviews={product.numReviews} />
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     Giá: {product.price}đ
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     Tác giả: {product.author}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     NXB: {product.publisher}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     Năm XB: {product.yearPublish}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     Trọng lượng (gr): {product.weight}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     Kích thước bao bì: {product.size}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
                                     Số trang: {product.numberOfPages}
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    Description: {product.description}
-                                </ListGroup.Item>
+                                </ListGroup>
+                                <ListGroup className="mt-3">
+                                    {product.description}
+                                </ListGroup>
                             </ListGroup>
                         </Col>
-                        <Col md={3}>
+                        <Col md={3} className="mt-3">
                             <Card>
                                 <Card.Body>
                                     <ListGroup variant="flush">
-                                        <ListGroup.Item>
+                                        <ListGroup>
                                             <Row>
                                                 <Col>Giá:</Col>
                                                 <Col>{product.price}đ</Col>
                                             </Row>
-                                        </ListGroup.Item>
-                                        <ListGroup.Item>
+                                        </ListGroup>
+                                        <ListGroup className="mt-3">
                                             <Row>
                                                 <Col>Trạng thái:</Col>
                                                 <Col>
@@ -111,15 +114,15 @@ function Product() {
                                                         <Badge bg="danger">Hết hàng</Badge>
                                                     }</Col>
                                             </Row>
-                                        </ListGroup.Item>
+                                        </ListGroup>
                                         {product.countInStock > 0 && (
-                                            <ListGroup.Item>
+                                            <ListGroup className="mt-3">
                                                 <div className="d-grid">
                                                     <Button variant="primary">
                                                         Thêm vào giỏ hàng
                                                     </Button>
                                                 </div>
-                                            </ListGroup.Item>
+                                            </ListGroup>
                                         )}
                                     </ListGroup>
                                 </Card.Body>
