@@ -47,6 +47,7 @@ main{
 .product {
   /* border: 1px solid #404040; */
   /* margin: 1rem; */
+  min-height: 100%;
 }
 
 .product img {
@@ -69,3 +70,23 @@ main{
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.card-body{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.product-name{
+  flex: 1;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+}
+
+.img-thumbnail{
+  height: 80px;
+}
+

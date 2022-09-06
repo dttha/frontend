@@ -6,36 +6,23 @@ import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import logger from "use-reducer-logger";
-import Rating from "../components/Rating";
+import Rating from "../../components/Rating";
 import { Helmet } from "react-helmet-async";
-import Loading from "../components/Loading";
-import Message from "../components/Message";
-import { getError } from "./utils";
-import { Store } from "../store";
+import Loading from "../../components/Loading";
+import Message from "../../components/Message";
+import { Store } from "../../store";
+import { getError } from "../utils";
+import { initialState, reducer } from "./reducer";
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'FETCh_REQUEST':
-            return { ...state, loading: true };
-        case 'FETCH_SUCCESS':
-            return { ...state, product: action.payload, loading: false };
-        case 'FETCH_FAIL':
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
-}
+
 
 function Product() {
+    const navigate = useNavigate()
     const params = useParams();
     const { slug } = params;
-    const [{ loading, error, product }, dispatch] = useReducer(logger(reducer), {
-        product: [],
-        loading: true,
-        error: '',
-    })
+    const [{ loading, error, product }, dispatch] = useReducer(logger(reducer), initialState)
     useEffect(() => {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' })
@@ -50,8 +37,20 @@ function Product() {
     }, [slug]);
 
     const { state, dispatch: contextDispatch } = useContext(Store)
-    const addToCart = () => {
-        contextDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } })
+    const { cart } = state;
+    const addToCart = async () => {
+        const existItem = cart.cartItems.find(item => item.id === product.id);
+        const quantity = existItem ? existItem.quantity + 1 : 1
+        const { data } = await axios.get(`/api/products/${product.id}`)
+        if (data.countInStock < quantity) {
+            window.alert("Hết hàng")
+            return
+        }
+        contextDispatch({
+            type: 'CART_ADD_ITEM',
+            payload: { ...product, quantity }
+        })
+        navigate('/cart')
     }
     return (
         loading ? (<Loading />)

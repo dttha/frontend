@@ -1,6 +1,4 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import Home from "./screens/Home";
-import Product from "./screens/Product";
 import Navbar from "react-bootstrap/Navbar";
 import Badge from "react-bootstrap/Badge";
 import Nav from "react-bootstrap/Nav";
@@ -8,6 +6,9 @@ import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
 import { useContext } from 'react';
 import { Store } from './store';
+import Home from './screens/Home/Home';
+import Product from './screens/ProductDetail.js/Product';
+import Cart from './screens/Cart/Cart';
 
 function App() {
   const { state } = useContext(Store)
@@ -26,7 +27,7 @@ function App() {
                   Cart
                   {cart.cartItems.length > 0 && (
                     <Badge pill bg='danger'>
-                      {cart.cartItems.length}
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                     </Badge>
                   )}
                 </Link>
@@ -38,6 +39,7 @@ function App() {
           <Container className='mt-3'>
             <Routes>
               <Route path="/product/:slug" element={<Product />} />
+              <Route path="/cart" element={<Cart />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </Container>
