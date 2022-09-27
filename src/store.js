@@ -3,8 +3,20 @@ import { createContext, useReducer } from "react";
 export const Store = createContext()
 
 const initialState = {
+    userInfo: localStorage.getItem('userInfo')
+        ? JSON.parse(localStorage.getItem('userInfo'))
+        : null, 
     cart: {
-        // refesh trang nhung van giu nguyen so luong
+        shippingAddress: localStorage.getItem('shippingAddress')
+            ? JSON.parse(localStorage.getItem('shippingAddress'))
+            : {},
+        paymentMethod: localStorage.getItem('paymentMethod')
+            ? localStorage.getItem('paymentMethod')
+            : '',
+        shippingMethod: localStorage.getItem('shippingMethod')
+            ? localStorage.getItem('shippingMethod')
+            : '',
+        // refesh trang nhung van giu nguyen trang do
         cartItems: localStorage.getItem('cartItems')
             ? JSON.parse(localStorage.getItem('cartItems'))
             : []
@@ -16,22 +28,60 @@ function reducer(state, action) {
             //add to cart 
             const newItem = action.payload
             const existItem = state.cart.cartItems.find(
-                (item) => item.id === newItem.id
+                (item) => item._id === newItem._id
             )
             const cartItems = existItem
                 ? state.cart.cartItems.map(item =>
-                    item.id === existItem.id ? newItem : item
+                    item._id === existItem._id ? newItem : item
                 )
                 : [...state.cart.cartItems, newItem]
             localStorage.setItem('cartItems', JSON.stringify(cartItems))
             return { ...state, cart: { ...state.cart, cartItems } }
         case 'CART_REMOVE_ITEM': {
             const cartItems = state.cart.cartItems.filter(
-                (item) => item.id !== action.payload.id
+                (item) => item._id !== action.payload._id
             )
             localStorage.setItem('cartItems', JSON.stringify(cartItems))
             return { ...state, cart: { ...state.cart, cartItems } }
         }
+        case 'USER_SIGNIN':
+            return { ...state, userInfo: action.payload }
+        case 'USER_SIGNOUT':
+            return {
+                ...state,
+                userInfo: null,
+                cart: {
+                    cartItems: [],
+                    shippingAddress: {},
+                    paymentMethod: ''
+                }
+            }
+        case 'SAVE_SHIPPING_ADDRESS':
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    shippingAddress: action.payload
+                }
+            }
+        case 'SAVE_PAYMENT_METHOD':
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    paymentMethod: action.payload
+                }
+            }
+        case 'SAVE_SHIPPING_METHOD':
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    shippingMethod: action.payload
+                }
+            }
+        default:
+            return state;
             // return {
             //     ...state,
             //     cart: {
@@ -39,8 +89,6 @@ function reducer(state, action) {
             //         cartItems: [...state.cart.cartItems, action.payload]
             //     }
             // }
-        default:
-            return state;
     }
 }
 

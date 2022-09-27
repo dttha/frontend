@@ -18,7 +18,7 @@ export default function Cart() {
     } = state
 
     const updateCart = async (item, quantity) => {
-        const { data } = await axios.get(`/api/products/${item.id}`)
+        const { data } = await axios.get(`/api/products/${item._id}`)
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return
@@ -50,7 +50,7 @@ export default function Cart() {
                         (
                             <ListGroup>
                                 {cartItems.map((item) => (
-                                    <ListGroup.Item key={item.id}>
+                                    <ListGroup.Item key={item._id}>
                                         <Row className="align-items-center">
                                             <Col md={6}>
                                                 <img

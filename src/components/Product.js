@@ -1,36 +1,37 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Rating from './Rating';
 import axios from 'axios';
 import { useContext } from 'react';
 import { Store } from '../store';
+import { ip } from '../configs/ip';
 
 
 function Product(props) {
+    const navigate = useNavigate()
     const { product } = props;
     const { state, dispatch: contextDispatch } = useContext(Store)
-    const {
-        cart: { cartItems },
-    } = state
+    const { cart } = state;
 
-    const addToCart = async (item) => {
-        const existItem = cartItems.find(item => item.id === product.id);
+    const addToCart = async () => {
+        const existItem = cart.cartItems.find(item => item._id === product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1
-        const { data } = await axios.get(`/api/products/${item.id}`)
+        const { data } = await axios.get(`/api/products/${product._id}`)
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return
         }
         contextDispatch({
             type: 'CART_ADD_ITEM',
-            payload: { ...item, quantity }
+            payload: { ...product, quantity }
         })
+        navigate('/cart')
     }
     return (
         <Card className="product">
             <Link to={`/product/${product.slug}`}>
-                <img className="image-cover card-img-top" src={product.image} alt={product.name} />
+                <img className="image-cover card-img-top" src={ip + product.image} alt={product.name} />
             </Link>
             <Card.Body className="card-body">
                 <Link className="product-name" to={`/product/${product.slug}`}>

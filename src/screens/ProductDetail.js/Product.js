@@ -15,6 +15,7 @@ import Message from "../../components/Message";
 import { Store } from "../../store";
 import { getError } from "../utils";
 import { initialState, reducer } from "./reducer";
+import { ip } from "../../configs/ip";
 
 
 
@@ -39,9 +40,9 @@ function Product() {
     const { state, dispatch: contextDispatch } = useContext(Store)
     const { cart } = state;
     const addToCart = async () => {
-        const existItem = cart.cartItems.find(item => item.id === product.id);
+        const existItem = cart.cartItems.find(item => item._id === product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1
-        const { data } = await axios.get(`/api/products/${product.id}`)
+        const { data } = await axios.get(`/api/products/${product._id}`)
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return
@@ -59,7 +60,7 @@ function Product() {
                 (<div>
                     <Row>
                         <Col md={3} className="mt-3">
-                            <img className="img-large" src={product.image} alt={product.name}></img>
+                            <img className="img-large" src={ip + product.image} alt={product.name}></img>
                         </Col>
                         <Col md={6}>
                             <ListGroup variant="flush">
@@ -122,7 +123,7 @@ function Product() {
                                         {product.countInStock > 0 && (
                                             <ListGroup className="mt-3">
                                                 <div className="d-grid">
-                                                    <Button onClick={addToCart} variant="primary">
+                                                    <Button onClick={() => addToCart(product)} variant="primary">
                                                         Thêm vào giỏ hàng
                                                     </Button>
                                                 </div>
