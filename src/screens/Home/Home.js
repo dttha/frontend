@@ -9,12 +9,14 @@ import Slider from "../../components/Carousel"
 import Loading from "../../components/Loading"
 import Message from "../../components/Message"
 import { initialState, reducer } from "./reducer"
+import { ip } from "../../configs/ip"
 
 export default function Home() {
     const [state, dispatch] = useReducer(logger(reducer), initialState)
     const { loading, error, products } = state;
     // const [products, setProducts] = useState([])
     useEffect(() => {
+        axios.defaults.baseURL = ip
         fetchData()
     }, [])
     const fetchData = async () => {

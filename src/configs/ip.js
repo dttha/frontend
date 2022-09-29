@@ -1,1 +1,1 @@
-export const ip = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://bookstore-backend123.herokuapp.com'
+export const ip = 'https://bookstore-backend123.herokuapp.com'
