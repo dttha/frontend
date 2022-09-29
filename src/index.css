@@ -103,3 +103,17 @@ main{
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
+
+#basic-nav-dropdown{
+  color: #fff;
+}
+
+#card{
+  flex-direction: row !important;
+  justify-content:space-between !important;
+  align-items: inherit !important;
+}
+
+#card-sum-order{
+  align-items: inherit !important;
+}
