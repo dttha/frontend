@@ -15,8 +15,8 @@ body {
   background-color: #13157f;
 }
 
-.font-color{
-  color: #fff;
+.font-color {
+    color: #fff!important;
 }
 
 main{
@@ -116,4 +116,112 @@ main{
 
 #card-sum-order{
   align-items: inherit !important;
+}
+
+.navbar-brand:hover {
+    color: #fff!important;
+}
+
+.footer{
+  background-color: #13157f;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-content {
+  display: flex;
+  color: #fff;
+  flex-wrap: wrap;
+  width: 779px;
+  justify-content: space-between;
+  margin-top: 24px;
+  margin-right: 306px;
+}
+
+.list-title {
+  font-family: "Manrope";
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.5;
+}
+
+.list {
+  list-style: none;
+  font-family: "Manrope";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 0.9;
+  padding: 0;
+  margin-top: 12px;
+}
+
+.list-item {
+  font-size: 16px;
+  line-height: 20px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.wrap-list {
+  max-width: 100%;
+}
+
+.wrap-footer {
+  display: flex;
+  padding-left: 86px;
+  padding-right: 86px;
+  padding-top: 30px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 100px;
+  object-fit: contain;
+  height: 40px;
+}
+
+.logo-footer{
+ 
+}
+
+.wrap-list-contact{
+  color: #fff;
+}
+
+.list-contact {
+  list-style: none;
+  font-family: "Manrope";
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 0.9;
+  padding: 0;
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 779px;
+  justify-content: space-between;
+  margin-top: 24px;
+  margin-right: 306px;
+}
+
+.list-item-contact{
+  cursor: pointer;
+}
+
+.copyright {
+  border-top: 2px solid #000273;
+  margin-top: 70px;
+  padding: 0 86px;
+  font-family: Harmonia Sans Pro Cyr Semi Bold;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 36px;
+  color: #5b5d9b;
 }

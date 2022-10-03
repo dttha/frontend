@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Store } from './store';
 import Home from './screens/Home/Home';
 import Product from './screens/ProductDetail.js/Product';
@@ -18,11 +18,17 @@ import Signup from './screens/Signup.js/Signup';
 import PaymentMethod from './screens/PaymentMethod/PaymentMethod';
 import MethodShipping from './screens/MethodShipping/MethodShipping';
 import PlaceOrder from './screens/PlaceOrder/PlaceOrder';
+import Footer from './components/Footer';
+import axios from 'axios';
+import { ip } from './configs/ip';
+import Order from './screens/Order/Order';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
   const { cart, userInfo } = state
-
+  useEffect(() => {
+    axios.defaults.baseURL = ip
+  }, [])
   const signoutHandler = () => {
     contextDispatch({ type: 'USER_SIGNOUT' })
     localStorage.removeItem('userInfo')
@@ -39,11 +45,11 @@ function App() {
           <Navbar className="background">
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand className="font-color">book store</Navbar.Brand>
+                <Navbar.Brand className="font-color">mọt sách</Navbar.Brand>
               </LinkContainer>
               <Nav className="me-auto">
                 <Link style={{ color: '#fff' }} to='/cart' className="nav-link">
-                  Cart
+                  Giỏ hàng
                   {cart.cartItems.length > 0 && (
                     <Badge pill bg='danger'>
                       {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -53,10 +59,10 @@ function App() {
                 {userInfo ? (
                   <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                     <LinkContainer to="/profile">
-                      <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      <NavDropdown.Item>Hồ sơ cá nhân</NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to="/orderhistory">
-                      <NavDropdown.Item>Oder History</NavDropdown.Item>
+                      <NavDropdown.Item>Lịch sử mua hàng</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Divider />
                     <Link
@@ -68,7 +74,7 @@ function App() {
                     </Link>
                   </NavDropdown>
                 ) : (
-                  <Link className="nav-link" to="/signin">
+                    <Link className="nav-link" style={{ color: '#fff' }} to="/signin">
                     Đăng nhập
                   </Link>
                 )}
@@ -77,7 +83,7 @@ function App() {
           </Navbar>
         </header>
         <main>
-          <Container className='mt-3'>
+          <Container className='mt-3 mb-5' style={{ minHeight: "65vh" }}>
             <Routes>
               <Route path="/product/:slug" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
@@ -87,12 +93,13 @@ function App() {
               <Route path="/payment" element={<PaymentMethod />} />
               <Route path="/shippingmethod" element={<MethodShipping />} />
               <Route path="/placeorder" element={<PlaceOrder />} />
+              <Route path="/order/:id" element={<Order />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </Container>
         </main>
         <footer>
-          <div className="text-center">All rights reserved.</div>
+          <Footer></Footer>
         </footer>
       </div>
     </BrowserRouter>

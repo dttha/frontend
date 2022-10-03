@@ -16,7 +16,6 @@ export default function Home() {
     const { loading, error, products } = state;
     // const [products, setProducts] = useState([])
     useEffect(() => {
-        axios.defaults.baseURL = ip
         fetchData()
     }, [])
     const fetchData = async () => {
