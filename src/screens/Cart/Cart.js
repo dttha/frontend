@@ -9,6 +9,7 @@ import Card from "react-bootstrap/Card";
 import Message from "../../components/Message";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import { ip } from "../../configs/ip";
 
 export default function Cart() {
     const navigate = useNavigate()
@@ -18,7 +19,7 @@ export default function Cart() {
     } = state
 
     const updateCart = async (item, quantity) => {
-        const { data } = await axios.get(`/api/products/${item._id}`)
+        const { data } = await axios.get(`${ip}/api/products/${item._id}`)
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return

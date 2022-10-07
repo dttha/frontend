@@ -28,7 +28,7 @@ function Product() {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' })
             try {
-                const result = await axios.get(`/api/products/slug/${slug}`)
+                const result = await axios.get(`${ip}/api/products/slug/${slug}`)
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
             } catch (err) {
                 dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
@@ -42,7 +42,7 @@ function Product() {
     const addToCart = async () => {
         const existItem = cart.cartItems.find(item => item._id === product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1
-        const { data } = await axios.get(`/api/products/${product._id}`)
+        const { data } = await axios.get(`${ip}/api/products/${product._id}`)
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return
@@ -60,7 +60,7 @@ function Product() {
                 (<div>
                     <Row>
                         <Col md={3} className="mt-3">
-                            <img className="img-large" src={ip + product.image} alt={product.name}></img>
+                            <img className="img-large" src={product.image} alt={product.name}></img>
                         </Col>
                         <Col md={6}>
                             <ListGroup variant="flush">

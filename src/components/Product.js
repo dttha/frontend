@@ -17,7 +17,7 @@ function Product(props) {
     const addToCart = async () => {
         const existItem = cart.cartItems.find(item => item._id === product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1
-        const { data } = await axios.get(`/api/products/${product._id}`)
+        const { data } = await axios.get(`${ip}/api/products/${product._id}`)
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return
@@ -31,7 +31,7 @@ function Product(props) {
     return (
         <Card className="product">
             <Link to={`/product/${product.slug}`}>
-                <img className="image-cover card-img-top" src={ip + product.image} alt={product.name} />
+                <img className="image-cover card-img-top" src={product.image} alt={product.name} />
             </Link>
             <Card.Body className="card-body">
                 <Link className="product-name" to={`/product/${product.slug}`}>

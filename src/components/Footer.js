@@ -1,12 +1,12 @@
 import React from 'react';
+import logo from '../assets/images/logo.png'
 
 export default function Footer() {
     return (
         <div className="footer">
             <div className="flex wrap-footer mt-5 mb-4">
                 <div className="logo-footer">
-                    cccccccccccccccccccc
-                    {/* <img alt="logo" src="/images/Hiệu sách Cửa hàng Etsy Biểu tượng" className="logo" width="175" height="51" /> */}
+                    <img alt="logo" src={logo} className="logo" width="175" height="51" />
                 </div>
                 <div className="footer-content">
                     <div className="wrap-list">
@@ -89,8 +89,8 @@ export default function Footer() {
 
                         </div>
                         <div style={{ color: '#5B5D9B' }}>
-                            <i className="fas fa-laptop" style={{ marginRight: 5 }}></i>
-                            <i className="fas fa-laptop" style={{ marginRight: 5 }}></i>
+                            <i className="fab fa-facebook" style={{ marginRight: 5 }}></i>
+                            <i className="fab fa-instagram" style={{ marginRight: 5 }}></i>
                         </div>
                     </div>
                 </div>

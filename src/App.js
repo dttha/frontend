@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
 import Badge from "react-bootstrap/Badge";
 import Nav from "react-bootstrap/Nav";
@@ -22,10 +22,16 @@ import Footer from './components/Footer';
 import axios from 'axios';
 import { ip } from './configs/ip';
 import Order from './screens/Order/Order';
+import { useLocation } from 'react-router-dom';
+import logo from '../src/assets/images/logo.png'
+import OrderHistory from './screens/OrderHistory/OrderHistory';
+import Profile from './screens/Profile/Profile';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
   const { cart, userInfo } = state
+  const location = useLocation()
+  console.log("🚀 ~ file: App.js ~ line 29 ~ App ~ location", location)
   useEffect(() => {
     axios.defaults.baseURL = ip
   }, [])
@@ -35,19 +41,22 @@ function App() {
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
     localStorage.removeItem('shippingMethod')
+    window.location.href = '/signin';
   }
 
   return (
-    <BrowserRouter>
       <div className="d-flex flex-column site-container">
         <ToastContainer position="bottom-center" limit={1}></ToastContainer>
         <header>
-          <Navbar className="background">
+        <Navbar className="background" expand="lg">
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand className="font-color">mọt sách</Navbar.Brand>
+              <img alt="logo" src={logo} className="logo" width="175" height="51" />
+              {/* <Navbar.Brand className="font-color">mọt sách</Navbar.Brand> */}
               </LinkContainer>
-              <Nav className="me-auto">
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto w-100 justify-content-end">
                 <Link style={{ color: '#fff' }} to='/cart' className="nav-link">
                   Giỏ hàng
                   {cart.cartItems.length > 0 && (
@@ -79,6 +88,7 @@ function App() {
                   </Link>
                 )}
               </Nav>
+            </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
@@ -89,11 +99,13 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<Signup />} />
+            <Route path="/profile" element={<Profile />} />
               <Route path="/shipping" element={<ShippingAddress />} />
               <Route path="/payment" element={<PaymentMethod />} />
               <Route path="/shippingmethod" element={<MethodShipping />} />
               <Route path="/placeorder" element={<PlaceOrder />} />
               <Route path="/order/:id" element={<Order />} />
+            <Route path="/orderHistory" element={<OrderHistory />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </Container>
@@ -101,8 +113,7 @@ function App() {
         <footer>
           <Footer></Footer>
         </footer>
-      </div>
-    </BrowserRouter>
+    </div>
   );
 }
 

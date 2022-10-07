@@ -29,7 +29,7 @@ export default function MethodShipping() {
     return (
         <div>
             <Checkout step1 step2 step3 step4></Checkout>
-            <div className="container smaill-container">
+            <div className="container small-container">
                 <Helmet>
                     <title>Phương thức vận chuyển</title>
                 </Helmet>

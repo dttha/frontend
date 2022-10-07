@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Checkout from '../../components/Checkout';
@@ -12,6 +12,7 @@ import { getError } from '../utils';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
+import { ip } from '../../configs/ip';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -42,8 +43,8 @@ export default function PlaceOrder() {
     const placeOrderHandler = async () => {
         try {
             dispatch({ type: 'CREATE_REQUEST ' })
-            const { data } = await Axios.post(
-                'api/orders',
+            const { data } = await axios.post(
+                `${ip}/api/orders`,
                 {
                     orderItems: cart.cartItems,
                     shippingAddress: cart.shippingAddress,
@@ -121,7 +122,7 @@ export default function PlaceOrder() {
                     </Card>
                     <Card className="mb-3">
                         <Card.Body id="card">
-                            <div>
+                            <div style={{ minWidth: 750 }}>
                                 <Card.Title>Sản phẩm</Card.Title>
                                 <ListGroup variant="flush">
                                     {cart.cartItems.map((item) => (

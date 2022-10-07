@@ -3,11 +3,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../../store";
 import { toast } from "react-toastify";
 import { getError } from "../utils";
+import { ip } from "../../configs/ip";
 
 export default function SignIn() {
     const navigate = useNavigate()
@@ -23,7 +24,7 @@ export default function SignIn() {
     const submitHandler = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await Axios.post('/api/users/signin', {
+            const { data } = await axios.post(`${ip}/api/users/signin`, {
                 email,
                 password,
             })

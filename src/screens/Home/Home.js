@@ -10,6 +10,7 @@ import Loading from "../../components/Loading"
 import Message from "../../components/Message"
 import { initialState, reducer } from "./reducer"
 import { ip } from "../../configs/ip"
+import handleUpload from "../../helper/uploadImage"
 
 export default function Home() {
     const [state, dispatch] = useReducer(logger(reducer), initialState)
@@ -21,7 +22,7 @@ export default function Home() {
     const fetchData = async () => {
         dispatch({ type: 'FETCH_REQUEST' })
         try {
-            const result = await axios.get('api/products')
+            const result = await axios.get(`${ip}/api/products`)
             dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
         } catch (err) {
             dispatch({ type: 'FETCH_FAIL', payload: err.message })
@@ -32,6 +33,12 @@ export default function Home() {
         <Helmet>
             <title>Book store</title>
         </Helmet>
+        <input type="file" onChange={async (e) => {
+            if (e.target.files.length) {
+                const res = await handleUpload(e.target.files[0])
+                console.log(res);
+            }
+        }} />
         <Slider></Slider>
         <div className="trend">Xu hướng mua sắm</div>
         <div className="products">

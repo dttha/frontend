@@ -3,11 +3,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../../store";
 import { toast } from "react-toastify";
 import { getError } from "../utils";
+import { ip } from "../../configs/ip";
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -30,7 +31,7 @@ export default function Signup() {
             return;
         }
         try {
-            const { data } = await Axios.post('/api/users/signup', {
+            const { data } = await axios.post(`${ip}/api/users/signup`, {
                 name,
                 phone,
                 email,
@@ -89,7 +90,7 @@ export default function Signup() {
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="confirmPassword">
-                    <Form.Label>Mật khẩu</Form.Label>
+                    <Form.Label>Nhập lại mật khẩu</Form.Label>
                     <Form.Control
                         type="password"
                         required

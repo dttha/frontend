@@ -181,9 +181,7 @@ main{
 }
 
 .logo {
-  width: 100px;
-  object-fit: contain;
-  height: 40px;
+  object-fit: cover;
 }
 
 .logo-footer{

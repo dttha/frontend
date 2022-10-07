@@ -13,7 +13,7 @@ export default function PaymentMethod() {
         cart: { shippingAddress, paymentMethod }
     } = state;
     const [paymentMethodName, setPaymentMethod] = useState(
-        paymentMethod || 'Thẻ nội địa/Master'
+        paymentMethod || 'Paypal'
     )
     useEffect(() => {
         if (!shippingAddress.address) {
@@ -29,7 +29,7 @@ export default function PaymentMethod() {
     return (
         <div>
             <Checkout step1 step2 step3></Checkout>
-            <div className="container smaill-container">
+            <div className="container small-container">
                 <Helmet>
                     <title>Phương thức thanh toán</title>
                 </Helmet>
@@ -38,10 +38,10 @@ export default function PaymentMethod() {
                     <div className="mb-3">
                         <Form.Check
                             type="radio"
-                            id="Card"
-                            label="Thẻ nội địa/Master"
-                            value="Thẻ nội địa/Master"
-                            checked={paymentMethodName === "Thẻ nội địa/Master"}
+                            id="Paypal"
+                            label="Paypal"
+                            value="Paypal"
+                            checked={paymentMethodName === "Paypal"}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                         />
                     </div>
