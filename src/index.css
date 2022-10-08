@@ -102,7 +102,7 @@ main{
   color: #f08000;
 }
 
-#basic-nav-dropdown{
+#basic-nav-dropdown, #admin-nav-dropdown{
   color: #fff;
 }
 
@@ -253,4 +253,8 @@ main{
 
 .nav-link-category:hover{
   color: #65ffcc;
+}
+
+.text-bold {
+  font-weight: bold;
 }

@@ -29,6 +29,11 @@ import Profile from './screens/Profile/Profile';
 import Button from 'react-bootstrap/Button';
 import { getError } from './screens/utils';
 import SearchBox from './components/SearchBox';
+import Search from './screens/Search/Search';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import Dashboard from './screens/Dashboard/Dashboard';
+import ProductList from './screens/ProductList/ProductList';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
@@ -117,6 +122,22 @@ function App() {
                     Đăng nhập
                   </Link>
                 )}
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/admin/dashboard">
+                      <NavDropdown.Item>Bảng điều khiển</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/products">
+                      <NavDropdown.Item>Quản lý sản phẩm</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/orders">
+                      <NavDropdown.Item>Quản lý đơn hàng</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/users">
+                      <NavDropdown.Item>Quản lý người dùng</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -150,21 +171,57 @@ function App() {
           <Routes>
             <Route path="/product/:slug" element={<Product />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/shipping" element={<ShippingAddress />} />
             <Route path="/payment" element={<PaymentMethod />} />
             <Route path="/shippingmethod" element={<MethodShipping />} />
             <Route path="/placeorder" element={<PlaceOrder />} />
-            <Route path="/order/:id" element={<Order />} />
-            <Route path="/orderHistory" element={<OrderHistory />} />
+            <Route
+              path="/order/:id"
+              element={
+                <ProtectedRoute>
+                  <Order />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route path="/orderHistory" element={
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
+            } />
+            {/* Admin Routes */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <Dashboard />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute>
+                  <ProductList />
+                </AdminRoute>
+              }
+            ></Route>
             <Route path="/" element={<Home />} />
           </Routes>
         </Container>
       </main>
       <footer>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </footer>
     </div>
   );
