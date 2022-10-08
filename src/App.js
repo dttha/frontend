@@ -5,13 +5,13 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Store } from './store';
 import Home from './screens/Home/Home';
 import Product from './screens/ProductDetail.js/Product';
 import Cart from './screens/Cart/Cart';
 import SignIn from './screens/SignIn/SignIn';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import ShippingAddress from './screens/ShippingAddress/ShippingAddress';
 import Signup from './screens/Signup.js/Signup';
@@ -26,6 +26,9 @@ import { useLocation } from 'react-router-dom';
 import logo from '../src/assets/images/logo.png'
 import OrderHistory from './screens/OrderHistory/OrderHistory';
 import Profile from './screens/Profile/Profile';
+import Button from 'react-bootstrap/Button';
+import { getError } from './screens/utils';
+import SearchBox from './components/SearchBox';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
@@ -44,18 +47,45 @@ function App() {
     window.location.href = '/signin';
   }
 
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`${ip}/api/products/categories`);
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
-      <div className="d-flex flex-column site-container">
-        <ToastContainer position="bottom-center" limit={1}></ToastContainer>
-        <header>
+    <div className={
+      sidebarIsOpen
+        ? "d-flex flex-column site-container active-cont"
+        : "d-flex flex-column site-container"
+    }
+    >
+      <ToastContainer position="bottom-center" limit={1}></ToastContainer>
+      <header>
         <Navbar className="background" expand="lg">
-            <Container>
-              <LinkContainer to="/">
-              <img alt="logo" src={logo} className="logo" width="175" height="51" />
-              {/* <Navbar.Brand className="font-color">mọt sách</Navbar.Brand> */}
-              </LinkContainer>
+          <Container>
+            <Button
+              id="btn-category"
+              onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+            >
+              <i className="fas fa-bars"></i>
+            </Button>
+
+            <LinkContainer to="/">
+              <Navbar.Brand className="font-color">mọt sách</Navbar.Brand>
+              {/* <img alt="logo" src={logo} className="logo" width="175" height="51" /> */}
+            </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
+              <SearchBox />
               <Nav className="me-auto w-100 justify-content-end">
                 <Link style={{ color: '#fff' }} to='/cart' className="nav-link">
                   Giỏ hàng
@@ -89,30 +119,53 @@ function App() {
                 )}
               </Nav>
             </Navbar.Collapse>
-            </Container>
-          </Navbar>
-        </header>
-        <main>
-          <Container className='mt-3 mb-5' style={{ minHeight: "65vh" }}>
-            <Routes>
-              <Route path="/product/:slug" element={<Product />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<Profile />} />
-              <Route path="/shipping" element={<ShippingAddress />} />
-              <Route path="/payment" element={<PaymentMethod />} />
-              <Route path="/shippingmethod" element={<MethodShipping />} />
-              <Route path="/placeorder" element={<PlaceOrder />} />
-              <Route path="/order/:id" element={<Order />} />
-            <Route path="/orderHistory" element={<OrderHistory />} />
-              <Route path="/" element={<Home />} />
-            </Routes>
           </Container>
-        </main>
-        <footer>
-          <Footer></Footer>
-        </footer>
+        </Navbar>
+      </header>
+      <div
+        className={
+          sidebarIsOpen
+            ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+            : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
+        }
+      >
+        <Nav className="flex-column text-white w-100 p-2">
+          <Nav.Item>
+            <strong>Danh mục sách</strong>
+          </Nav.Item>
+          {categories.map((category) => (
+            <Nav.Item key={category}>
+              <LinkContainer
+                to={`/search?category=${category}`}
+                onClick={() => setSidebarIsOpen(false)}
+              >
+                <Nav.Link className="nav-link-category">{category}</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+          ))}
+        </Nav>
+      </div>
+      <main>
+        <Container className='mt-3 mb-5' style={{ minHeight: "65vh" }}>
+          <Routes>
+            <Route path="/product/:slug" element={<Product />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/shipping" element={<ShippingAddress />} />
+            <Route path="/payment" element={<PaymentMethod />} />
+            <Route path="/shippingmethod" element={<MethodShipping />} />
+            <Route path="/placeorder" element={<PlaceOrder />} />
+            <Route path="/order/:id" element={<Order />} />
+            <Route path="/orderHistory" element={<OrderHistory />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Container>
+      </main>
+      <footer>
+        <Footer></Footer>
+      </footer>
     </div>
   );
 }

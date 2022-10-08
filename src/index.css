@@ -28,7 +28,7 @@ main{
   height: 350px;
 }
 
-.btn-primary{
+.btn-primary, .btn-outline-primary{
   background-color:#15bcaf;
   color: #fff;
   border: none;
@@ -45,8 +45,6 @@ main{
 }
 
 .product {
-  /* border: 1px solid #404040; */
-  /* margin: 1rem; */
   min-height: 100%;
 }
 
@@ -184,10 +182,6 @@ main{
   object-fit: cover;
 }
 
-.logo-footer{
- 
-}
-
 .wrap-list-contact{
   color: #fff;
 }
@@ -222,4 +216,41 @@ main{
   font-weight: 600;
   line-height: 36px;
   color: #5b5d9b;
+}
+/* sidebar */
+.navbar-brand {
+  font-weight: bold;
+}
+
+.side-navbar {
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  left: -300px;
+  background-color: #13157f;
+  transition: 0.5s;
+}
+
+.site-container{
+  transition: 0.4s;
+}
+
+.active-cont{
+  margin-left: 240px;
+}
+
+.active-nav{
+  left: 0;
+}
+
+#btn-category{
+  background-color: #13157f;
+}
+
+.nav-link-category{
+  color: #fff
+}
+
+.nav-link-category:hover{
+  color: #65ffcc;
 }
