@@ -89,6 +89,8 @@ export default function Search() {
             error: '',
         });
 
+    console.log({ loading, error, products, pages, countProducts });
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -146,7 +148,7 @@ export default function Search() {
                                     Tất cả
                                 </Link>
                             </li>
-                            {categories.map((c) => (
+                            {categories && categories.map((c) => (
                                 <li key={c}>
                                     <Link
                                         className={c === category ? 'text-bold' : ''}
@@ -169,7 +171,7 @@ export default function Search() {
                                     Tất cả
                                 </Link>
                             </li>
-                            {prices.map((p) => (
+                            {prices && prices.map((p) => (
                                 <li key={p.value}>
                                     <Link
                                         to={getFilterUrl({ price: p.value })}
@@ -184,7 +186,7 @@ export default function Search() {
                     <div>
                         <h3>Trung bình đánh giá của khách hàng</h3>
                         <ul>
-                            {ratings.map((r) => (
+                            {ratings && ratings.map((r) => (
                                 <li key={r.name}>
                                     <Link
                                         to={getFilterUrl({ rating: r.rating })}
@@ -248,12 +250,12 @@ export default function Search() {
                                     </select>
                                 </Col>
                             </Row>
-                            {products.length === 0 && (
+                                    {products && products.length === 0 && (
                                 <Message>Không tìm thấy kết quả</Message>
                             )}
 
                             <Row>
-                                {products.map((product) => (
+                                        {products && products.map((product) => (
                                     <Col sm={6} lg={4} className="mb-3" key={product._id}>
                                         <Product product={product}></Product>
                                     </Col>
@@ -261,7 +263,7 @@ export default function Search() {
                             </Row>
 
                             <div>
-                                {[...Array(pages).keys()].map((x) => (
+                                        {pages && [...Array(pages).keys()].map((x) => (
                                     <LinkContainer
                                         key={x + 1}
                                         className="mx-1"
