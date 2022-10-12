@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useEffect, useReducer, useContext } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useNavigate, useParams } from "react-router-dom"
+import { useContext, useEffect, useReducer, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import logger from "use-reducer-logger";
 import Rating from "../../components/Rating";
 import { Helmet } from "react-helmet-async";
@@ -14,16 +14,26 @@ import Loading from "../../components/Loading";
 import Message from "../../components/Message";
 import { Store } from "../../store";
 import { getError } from "../utils";
-import { initialState, reducer } from "./reducer";
+import Form from 'react-bootstrap/Form';
+import { reducer } from "./reducer";
 import { ip } from "../../configs/ip";
-
-
+import { toast } from "react-toastify";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 function Product() {
+    let reviewsRef = useRef();
+
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState('');
     const navigate = useNavigate()
     const params = useParams();
     const { slug } = params;
-    const [{ loading, error, product }, dispatch] = useReducer(logger(reducer), initialState)
+    const [{ loading, error, product, loadingCreateReview }, dispatch] =
+        useReducer(reducer, {
+            product: [],
+            loading: true,
+            error: '',
+        });
     useEffect(() => {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' })
@@ -38,7 +48,7 @@ function Product() {
     }, [slug]);
 
     const { state, dispatch: contextDispatch } = useContext(Store)
-    const { cart } = state;
+    const { cart, userInfo } = state;
     const addToCart = async () => {
         const existItem = cart.cartItems.find(item => item._id === product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1
@@ -53,6 +63,39 @@ function Product() {
         })
         navigate('/cart')
     }
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        if (!comment || !rating) {
+            toast.error('Please enter comment and rating');
+            return;
+        }
+        try {
+            const { data } = await axios.post(
+                `${ip}/api/products/${product._id}/reviews`,
+                { rating, comment, name: userInfo.name },
+                {
+                    headers: { Authorization: `Bearer ${userInfo.token}` },
+                }
+            );
+
+            dispatch({
+                type: 'CREATE_SUCCESS',
+            });
+            toast.success('Review submitted successfully');
+            product.reviews.unshift(data.review);
+            product.numReviews = data.numReviews;
+            product.rating = data.rating;
+            dispatch({ type: 'REFRESH_PRODUCT', payload: product });
+            window.scrollTo({
+                behavior: 'smooth',
+                top: reviewsRef.current.offsetTop,
+            });
+        } catch (error) {
+            toast.error(getError(error));
+            dispatch({ type: 'CREATE_FAIL' });
+        }
+    };
     return (
         loading ? (<Loading />)
             : error ? (<Message variant="danger">{error}</Message>)
@@ -102,7 +145,7 @@ function Product() {
                         <Col md={3} className="mt-3">
                             <Card>
                                 <Card.Body>
-                                    <ListGroup variant="flush">
+                                    <ListGroup variant="flush" style={{ width: '100%' }}>
                                         <ListGroup>
                                             <Row>
                                                 <Col>Giá:</Col>
@@ -134,6 +177,73 @@ function Product() {
                             </Card>
                         </Col>
                     </Row>
+                    <div className="my-3">
+                        <h2 ref={reviewsRef}>Reviews</h2>
+                        <div className="mb-3">
+                            {product.reviews.length === 0 && (
+                                <Message>There is no review</Message>
+                            )}
+                        </div>
+                        <ListGroup>
+                            {product.reviews.map((review) => (
+                                <ListGroup.Item key={review._id}>
+                                    <strong>{review.name}</strong>
+                                    <Rating rating={review.rating} caption=" "></Rating>
+                                    <p>{review.createdAt.substring(0, 10)}</p>
+                                    <p>{review.comment}</p>
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                        <div className="my-3">
+                            {userInfo ? (
+                                <form onSubmit={submitHandler}>
+                                    <h2>Write a customer review</h2>
+                                    <Form.Group className="mb-3" controlId="rating">
+                                        <Form.Label>Rating</Form.Label>
+                                        <Form.Select
+                                            aria-label="Rating"
+                                            value={rating}
+                                            onChange={(e) => setRating(e.target.value)}
+                                        >
+                                            <option value="">Select...</option>
+                                            <option value="1">1- Poor</option>
+                                            <option value="2">2- Fair</option>
+                                            <option value="3">3- Good</option>
+                                            <option value="4">4- Very good</option>
+                                            <option value="5">5- Excelent</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                    <FloatingLabel
+                                        controlId="floatingTextarea"
+                                        label="Comments"
+                                        className="mb-3"
+                                    >
+                                        <Form.Control
+                                            as="textarea"
+                                            placeholder="Leave a comment here"
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                        />
+                                    </FloatingLabel>
+
+                                    <div className="mb-3">
+                                        <Button disabled={loadingCreateReview} type="submit">
+                                            Submit
+                                        </Button>
+                                        {loadingCreateReview && <Loading></Loading>}
+                                    </div>
+                                </form>
+                            ) : (
+                                <Message>
+                                    Please{' '}
+                                    <Link to={`/signin?redirect=/product/${product.slug}`}>
+                                        Sign In
+                                    </Link>{' '}
+                                    to write a review
+                                </Message>
+                            )}
+                        </div>
+                    </div>
                 </div>)
     )
 }

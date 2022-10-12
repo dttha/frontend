@@ -139,8 +139,8 @@ export default function Search() {
                 <Col md={3}>
                     <h3>Thể loại</h3>
                     <div>
-                        <ul>
-                            <li>
+                        <ul id="search-ul">
+                            <li id="search-li">
                                 <Link
                                     className={'all' === category ? 'text-bold' : ''}
                                     to={getFilterUrl({ category: 'all' })}
@@ -149,7 +149,7 @@ export default function Search() {
                                 </Link>
                             </li>
                             {categories && categories.map((c) => (
-                                <li key={c}>
+                                <li id="search-li" key={c}>
                                     <Link
                                         className={c === category ? 'text-bold' : ''}
                                         to={getFilterUrl({ category: c })}
@@ -162,8 +162,8 @@ export default function Search() {
                     </div>
                     <div>
                         <h3>Giá</h3>
-                        <ul>
-                            <li>
+                        <ul id="search-ul">
+                            <li id="search-li">
                                 <Link
                                     className={'all' === price ? 'text-bold' : ''}
                                     to={getFilterUrl({ price: 'all' })}
@@ -172,7 +172,7 @@ export default function Search() {
                                 </Link>
                             </li>
                             {prices && prices.map((p) => (
-                                <li key={p.value}>
+                                <li id="search-li" key={p.value}>
                                     <Link
                                         to={getFilterUrl({ price: p.value })}
                                         className={p.value === price ? 'text-bold' : ''}
@@ -185,9 +185,9 @@ export default function Search() {
                     </div>
                     <div>
                         <h3>Trung bình đánh giá của khách hàng</h3>
-                        <ul>
+                        <ul id="search-ul">
                             {ratings && ratings.map((r) => (
-                                <li key={r.name}>
+                                <li id="search-li" key={r.name}>
                                     <Link
                                         to={getFilterUrl({ rating: r.rating })}
                                         className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
@@ -196,7 +196,7 @@ export default function Search() {
                                     </Link>
                                 </li>
                             ))}
-                            <li>
+                            <li id="search-li">
                                 <Link
                                     to={getFilterUrl({ rating: 'all' })}
                                     className={rating === 'all' ? 'text-bold' : ''}

@@ -258,3 +258,12 @@ main{
 .text-bold {
   font-weight: bold;
 }
+
+#search-ul{
+  list-style: none!important;
+  padding-left: 1rem!important;
+}
+
+#search-li{
+  margin: 10px 0px 10px 0px!important;
+}

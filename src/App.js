@@ -34,12 +34,15 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import Dashboard from './screens/Dashboard/Dashboard';
 import ProductList from './screens/ProductList/ProductList';
+import ProductCreateEdit from './screens/ProductCreateEdit/ProductCreateEdit';
+import OrderList from './screens/OrderList/OrderList';
+import UserList from './screens/UserList/UserList';
+import UserEdit from './screens/UserEdit/UserEdit';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
   const { cart, userInfo } = state
   const location = useLocation()
-  console.log("🚀 ~ file: App.js ~ line 29 ~ App ~ location", location)
   useEffect(() => {
     axios.defaults.baseURL = ip
   }, [])
@@ -209,10 +212,42 @@ function App() {
               }
             ></Route>
             <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <OrderList />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute>
+                  <UserList />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
               path="/admin/products"
               element={
                 <AdminRoute>
                   <ProductList />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
+              path="/admin/product/:id"
+              element={
+                <AdminRoute>
+                  <ProductCreateEdit />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
+              path="/admin/user/:id"
+              element={
+                <AdminRoute>
+                  <UserEdit />
                 </AdminRoute>
               }
             ></Route>

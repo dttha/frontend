@@ -34,17 +34,40 @@ const reducer = (state, action) => {
             };
         case 'CREATE_FAIL':
             return { ...state, loadingCreate: false };
+        case 'DELETE_REQUEST':
+            return { ...state, loadingDelete: true, successDelete: false };
+        case 'DELETE_SUCCESS':
+            return {
+                ...state,
+                loadingDelete: false,
+                successDelete: true,
+            };
+        case 'DELETE_FAIL':
+            return { ...state, loadingDelete: false, successDelete: false };
+
+        case 'DELETE_RESET':
+            return { ...state, loadingDelete: false, successDelete: false };
         default:
             return state;
     }
 };
 
 export default function ProductList() {
-    const [{ loading, error, products, pages, loadingCreate }, dispatch] =
-        useReducer(reducer, {
-            loading: true,
-            error: '',
-        });
+    const [
+        {
+            loading,
+            error,
+            products,
+            pages,
+            loadingCreate,
+            loadingDelete,
+            successDelete,
+        },
+        dispatch,
+    ] = useReducer(reducer, {
+        loading: true,
+        error: '',
+    });
 
     const navigate = useNavigate();
     const { search } = useLocation();
@@ -64,11 +87,15 @@ export default function ProductList() {
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });
             } catch (err) { }
         };
-        fetchData();
-    }, [page, userInfo]);
+        if (successDelete) {
+            dispatch({ type: 'DELETE_RESET' });
+        } else {
+            fetchData();
+        }
+    }, [page, userInfo, successDelete]);
 
     const createHandler = async () => {
-        if (window.confirm('Are you sure to create?')) {
+        if (window.confirm('Bạn muốn thêm sản phẩm?')) {
             try {
                 dispatch({ type: 'CREATE_REQUEST' });
                 const { data } = await axios.post(
@@ -78,13 +105,30 @@ export default function ProductList() {
                         headers: { Authorization: `Bearer ${userInfo.token}` },
                     }
                 );
-                toast.success('product created successfully');
+                toast.success('Sản phẩm đã được thêm mới thành công');
                 dispatch({ type: 'CREATE_SUCCESS' });
                 navigate(`/admin/product/${data.product._id}`);
             } catch (err) {
                 toast.error(getError(error));
                 dispatch({
                     type: 'CREATE_FAIL',
+                });
+            }
+        }
+    };
+
+    const deleteHandler = async (product) => {
+        if (window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+            try {
+                await axios.delete(`${ip}/api/products/${product._id}`, {
+                    headers: { Authorization: `Bearer ${userInfo.token}` },
+                });
+                toast.success('Sản phẩm đã được xóa thành công');
+                dispatch({ type: 'DELETE_SUCCESS' });
+            } catch (err) {
+                toast.error(getError(error));
+                dispatch({
+                    type: 'DELETE_FAIL',
                 });
             }
         }
@@ -106,6 +150,7 @@ export default function ProductList() {
             </Row>
 
             {loadingCreate && <Loading></Loading>}
+            {loadingDelete && <Loading></Loading>}
             {loading ? (
                 <Loading></Loading>
             ) : error ? (
@@ -116,18 +161,18 @@ export default function ProductList() {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>NAME</th>
-                                <th>CATEGORY</th>
-                                <th>PRICE</th>
-                                <th>DISCOUNT</th>
-                                <th>COUNTINSTOCK</th>
-                                <th>AUTHOR</th>
-                                <th>PUBLISHER</th>
-                                <th>WEIGHT</th>
-                                <th>NUMBEROFPAGES</th>
-                                <th>SIZE</th>
-                                <th>YEARPUBLISH</th>
-                                <th>DESCRIPTION</th>
+                                        <th>Tên</th>
+                                        <th>Danh mục</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Tác giả</th>
+                                        <th>NXB</th>
+                                        <th>Trọng lượng</th>
+                                        <th>Số trang</th>
+                                        <th>Kích thước</th>
+                                        <th>Năm XB</th>
+                                        <th>Mô tả</th>
+                                        <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,7 +182,6 @@ export default function ProductList() {
                                     <td>{product.name}</td>
                                     <td>{product.category}</td>
                                     <td>{product.price}</td>
-                                    <td>{product.discount}</td>
                                     <td>{product.countInStock}</td>
                                     <td>{product.author}</td>
                                     <td>{product.publisher}</td>
@@ -146,6 +190,23 @@ export default function ProductList() {
                                     <td>{product.size}</td>
                                     <td>{product.yearPublish}</td>
                                     <td>{product.description}</td>
+                                    <td>
+                                        <Button
+                                            type="button"
+                                            variant="light"
+                                            onClick={() => navigate(`/admin/product/${product._id}`)}
+                                        >
+                                            Sửa
+                                        </Button>
+                                        &nbsp;
+                                        <Button
+                                            type="button"
+                                            variant="light"
+                                            onClick={() => deleteHandler(product)}
+                                        >
+                                            Xóa
+                                        </Button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
