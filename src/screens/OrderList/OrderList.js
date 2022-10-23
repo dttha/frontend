@@ -9,35 +9,8 @@ import Message from '../../components/Message';
 import { ip } from '../../configs/ip';
 import { Store } from '../../store';
 import { getError } from '../utils';
+import { reducer } from './reducer';
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'FETCH_REQUEST':
-            return { ...state, loading: true };
-        case 'FETCH_SUCCESS':
-            return {
-                ...state,
-                orders: action.payload,
-                loading: false,
-            };
-        case 'FETCH_FAIL':
-            return { ...state, loading: false, error: action.payload };
-        case 'DELETE_REQUEST':
-            return { ...state, loadingDelete: true, successDelete: false };
-        case 'DELETE_SUCCESS':
-            return {
-                ...state,
-                loadingDelete: false,
-                successDelete: true,
-            };
-        case 'DELETE_FAIL':
-            return { ...state, loadingDelete: false };
-        case 'DELETE_RESET':
-            return { ...state, loadingDelete: false, successDelete: false };
-        default:
-            return state;
-    }
-};
 export default function OrderList() {
     const navigate = useNavigate();
     const { state } = useContext(Store);
@@ -71,7 +44,7 @@ export default function OrderList() {
     }, [userInfo, successDelete]);
 
     const deleteHandler = async (order) => {
-        if (window.confirm('Bạn có chắc muốn xóa người dùng này?')) {
+        if (window.confirm('Bạn có chắc muốn xóa đơn hàng này?')) {
             try {
                 dispatch({ type: 'DELETE_REQUEST' });
                 await axios.delete(`${ip}/api/orders/${order._id}`, {

@@ -178,10 +178,10 @@ function Product() {
                         </Col>
                     </Row>
                     <div className="my-3">
-                        <h2 ref={reviewsRef}>Reviews</h2>
+                        <h2 ref={reviewsRef}>Đánh giá</h2>
                         <div className="mb-3">
                             {product.reviews.length === 0 && (
-                                <Message>There is no review</Message>
+                                <Message>Chưa có đánh giá nào</Message>
                             )}
                         </div>
                         <ListGroup>
@@ -197,25 +197,25 @@ function Product() {
                         <div className="my-3">
                             {userInfo ? (
                                 <form onSubmit={submitHandler}>
-                                    <h2>Write a customer review</h2>
+                                    <h2>Viết nhận xét của bạn về sản phẩm</h2>
                                     <Form.Group className="mb-3" controlId="rating">
-                                        <Form.Label>Rating</Form.Label>
+                                        <Form.Label>Đánh giá</Form.Label>
                                         <Form.Select
                                             aria-label="Rating"
                                             value={rating}
                                             onChange={(e) => setRating(e.target.value)}
                                         >
-                                            <option value="">Select...</option>
-                                            <option value="1">1- Poor</option>
-                                            <option value="2">2- Fair</option>
-                                            <option value="3">3- Good</option>
-                                            <option value="4">4- Very good</option>
-                                            <option value="5">5- Excelent</option>
+                                            <option value="">Lựa chọn...</option>
+                                            <option value="1">1- Không tốt</option>
+                                            <option value="2">2- Khá tốt</option>
+                                            <option value="3">3- Tốt</option>
+                                            <option value="4">4- Rất tốt</option>
+                                            <option value="5">5- Tuyệt vời</option>
                                         </Form.Select>
                                     </Form.Group>
                                     <FloatingLabel
                                         controlId="floatingTextarea"
-                                        label="Comments"
+                                        label="Viết bình luận"
                                         className="mb-3"
                                     >
                                         <Form.Control
@@ -228,18 +228,18 @@ function Product() {
 
                                     <div className="mb-3">
                                         <Button disabled={loadingCreateReview} type="submit">
-                                            Submit
+                                            Gửi
                                         </Button>
                                         {loadingCreateReview && <Loading></Loading>}
                                     </div>
                                 </form>
                             ) : (
                                 <Message>
-                                    Please{' '}
+                                        Vui lòng{' '}
                                     <Link to={`/signin?redirect=/product/${product.slug}`}>
-                                        Sign In
+                                            đăng nhập
                                     </Link>{' '}
-                                    to write a review
+                                        để viết đánh giá về sản phẩm
                                 </Message>
                             )}
                         </div>

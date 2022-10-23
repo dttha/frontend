@@ -12,12 +12,12 @@ import Message from '../../components/Message';
 import { getError } from '../utils';
 import { reducer } from './reducer';
 
-export default function ProductList() {
+export default function AdvertisementList() {
     const [
         {
             loading,
             error,
-            products,
+            advertisements,
             pages,
             loadingCreate,
             loadingDelete,
@@ -40,7 +40,7 @@ export default function ProductList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await axios.get(`${ip}/api/products/admin?page=${page} `, {
+                const { data } = await axios.get(`${ip}/api/advertisements/admin?page=${page} `, {
                     headers: { Authorization: `Bearer ${userInfo.token}` },
                 });
 
@@ -55,19 +55,19 @@ export default function ProductList() {
     }, [page, userInfo, successDelete]);
 
     const createHandler = async () => {
-        if (window.confirm('Bạn muốn thêm sản phẩm?')) {
+        if (window.confirm('Bạn muốn thêm ảnh quảng cáo?')) {
             try {
                 dispatch({ type: 'CREATE_REQUEST' });
                 const { data } = await axios.post(
-                    `${ip}/api/products`,
+                    `${ip}/api/advertisements`,
                     {},
                     {
                         headers: { Authorization: `Bearer ${userInfo.token}` },
                     }
                 );
-                toast.success('Sản phẩm đã được thêm mới thành công');
+                toast.success('Ảnh quảng cáo đã được thêm mới thành công');
                 dispatch({ type: 'CREATE_SUCCESS' });
-                navigate(`/admin/product/${data.product._id}`);
+                navigate(`/admin/advertisement/${data.advertisement._id}`);
             } catch (err) {
                 toast.error(getError(error));
                 dispatch({
@@ -77,13 +77,13 @@ export default function ProductList() {
         }
     };
 
-    const deleteHandler = async (product) => {
-        if (window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+    const deleteHandler = async (advertisement) => {
+        if (window.confirm('Bạn có chắc muốn xóa ảnh quảng cáo này?')) {
             try {
-                await axios.delete(`${ip}/api/products/${product._id}`, {
+                await axios.delete(`${ip}/api/advertisements/${advertisement._id}`, {
                     headers: { Authorization: `Bearer ${userInfo.token}` },
                 });
-                toast.success('Sản phẩm đã được xóa thành công');
+                toast.success('Ảnh quảng cáo đã được xóa thành công');
                 dispatch({ type: 'DELETE_SUCCESS' });
             } catch (err) {
                 toast.error(getError(error));
@@ -98,12 +98,12 @@ export default function ProductList() {
         <div>
             <Row>
                 <Col>
-                    <h1>Quản lý sản phẩm</h1>
+                    <h1>Quản lý ảnh quảng cáo</h1>
                 </Col>
                 <Col className="col text-end">
                     <div>
                         <Button type="button" onClick={createHandler}>
-                            Thêm sản phẩm
+                            Thêm ảnh quảng cáo
                         </Button>
                     </div>
                 </Col>
@@ -120,41 +120,23 @@ export default function ProductList() {
                     <table className="table">
                         <thead>
                             <tr>
-                                        <th>ID</th>
-                                        <th>Tên</th>
-                                        <th>Danh mục</th>
-                                        <th>Giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Tác giả</th>
-                                        <th>NXB</th>
-                                        <th>Trọng lượng</th>
-                                        <th>Số trang</th>
-                                        <th>Kích thước</th>
-                                        <th>Năm XB</th>
-                                        <th>Mô tả</th>
-                                        <th>Hành động</th>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Ảnh</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {products.map((product) => (
-                                <tr key={product._id}>
-                                    <td>{product._id}</td>
-                                    <td>{product.name}</td>
-                                    <td>{product.category}</td>
-                                    <td>{product.price}</td>
-                                    <td>{product.countInStock}</td>
-                                    <td>{product.author}</td>
-                                    <td>{product.publisher}</td>
-                                    <td>{product.weight}</td>
-                                    <td>{product.numberOfPages}</td>
-                                    <td>{product.size}</td>
-                                    <td>{product.yearPublish}</td>
-                                    <td>{product.description}</td>
+                            {advertisements.map((advertisement) => (
+                                <tr key={advertisement._id}>
+                                    <td>{advertisement._id}</td>
+                                    <td>{advertisement.alt}</td>
+                                    <td>{advertisement.image}</td>
                                     <td>
                                         <Button
                                             type="button"
                                             variant="light"
-                                            onClick={() => navigate(`/admin/product/${product._id}`)}
+                                            onClick={() => navigate(`/admin/advertisement/${advertisement._id}`)}
                                         >
                                             Sửa
                                         </Button>
@@ -162,7 +144,7 @@ export default function ProductList() {
                                         <Button
                                             type="button"
                                             variant="light"
-                                            onClick={() => deleteHandler(product)}
+                                            onClick={() => deleteHandler(advertisement)}
                                         >
                                             Xóa
                                         </Button>
@@ -176,7 +158,7 @@ export default function ProductList() {
                             <Link
                                 className={x + 1 === Number(page) ? 'btn text-bold' : 'btn'}
                                 key={x + 1}
-                                to={`/admin/products?page=${x + 1}`}
+                                to={`/admin/advertisements?page=${x + 1}`}
                             >
                                 {x + 1}
                             </Link>

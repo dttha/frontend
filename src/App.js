@@ -38,6 +38,8 @@ import ProductCreateEdit from './screens/ProductCreateEdit/ProductCreateEdit';
 import OrderList from './screens/OrderList/OrderList';
 import UserList from './screens/UserList/UserList';
 import UserEdit from './screens/UserEdit/UserEdit';
+import AdvertisementList from './screens/AdvertisementList/AdvertisementList';
+import AdvertisementCreateEdit from './screens/AdvertisementCreateEdit/AdvertisementCreateEdit';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
@@ -49,6 +51,7 @@ function App() {
   const signoutHandler = () => {
     contextDispatch({ type: 'USER_SIGNOUT' })
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('cartItems')
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
     localStorage.removeItem('shippingMethod')
@@ -69,6 +72,22 @@ function App() {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    if (userInfo) {
+      const getCart = async () => {
+        try {
+          const { data } = await axios.get(`${ip}/api/cart`, {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          });
+          contextDispatch({ type: "GET_CART_SUCCESS", payload: { cart: data.cart } })
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      getCart()
+    }
+  }, [userInfo])
+
   return (
     <div className={
       sidebarIsOpen
@@ -77,8 +96,15 @@ function App() {
     }
     >
       <ToastContainer position="bottom-center" limit={1}></ToastContainer>
-      <header>
-        <Navbar className="background" expand="lg">
+      <header className="fixed">
+        <Navbar
+          className={
+            sidebarIsOpen
+              ? "background nav-fixed active-nav-fixed"
+              : "background nav-fixed"
+          }
+          expand="lg"
+        >
           <Container>
             <Button
               id="btn-category"
@@ -139,6 +165,9 @@ function App() {
                     <LinkContainer to="/admin/users">
                       <NavDropdown.Item>Quản lý người dùng</NavDropdown.Item>
                     </LinkContainer>
+                    <LinkContainer to="/admin/advertisements">
+                      <NavDropdown.Item>Quản lý bìa quảng cáo</NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown>
                 )}
               </Nav>
@@ -149,7 +178,7 @@ function App() {
       <div
         className={
           sidebarIsOpen
-            ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+            ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column fixed'
             : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
         }
       >
@@ -170,7 +199,7 @@ function App() {
         </Nav>
       </div>
       <main>
-        <Container className='mt-3 mb-5' style={{ minHeight: "65vh" }}>
+        <Container className='mt-70 mb-5' style={{ minHeight: "65vh" }}>
           <Routes>
             <Route path="/product/:slug" element={<Product />} />
             <Route path="/cart" element={<Cart />} />
@@ -248,6 +277,22 @@ function App() {
               element={
                 <AdminRoute>
                   <UserEdit />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
+              path="/admin/advertisements"
+              element={
+                <AdminRoute>
+                  <AdvertisementList />
+                </AdminRoute>
+              }
+            ></Route>
+            <Route
+              path="/admin/advertisement/:id"
+              element={
+                <AdminRoute>
+                  <AdvertisementCreateEdit />
                 </AdminRoute>
               }
             ></Route>

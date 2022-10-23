@@ -56,7 +56,7 @@ export default function MethodShipping() {
                         />
                     </div>
                     <div className="mb-3">
-                        <Button type="submit">Đồng ý</Button>
+                        <Button type="submit">Tiếp tục</Button>
                     </div>
                 </Form>
             </div>

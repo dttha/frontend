@@ -8,19 +8,7 @@ import Message from '../../components/Message';
 import { ip } from '../../configs/ip';
 import { Store } from '../../store';
 import { getError } from '../utils';
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'FETCH_REQUEST':
-            return { ...state, loading: true };
-        case 'FETCH_SUCCESS':
-            return { ...state, orders: action.payload, loading: false };
-        case 'FETCH_FAIL':
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
-};
+import { reducer } from './reducer';
 
 export default function OrderHistory() {
     const { state } = useContext(Store);

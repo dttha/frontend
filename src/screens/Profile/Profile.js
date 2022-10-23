@@ -7,23 +7,11 @@ import axios from 'axios';
 import { Store } from '../../store';
 import { ip } from '../../configs/ip';
 import { getError } from '../utils';
+import { reducer } from './reducer';
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'UPDATE_REQUEST':
-            return { ...state, loadingUpdate: true };
-        case 'UPDATE_SUCCESS':
-            return { ...state, loadingUpdate: false };
-        case 'UPDATE_FAIL':
-            return { ...state, loadingUpdate: false };
-
-        default:
-            return state;
-    }
-};
 
 export default function Profile() {
-    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { state, dispatch: contextDispatch } = useContext(Store);
     const { userInfo } = state;
     const [name, setName] = useState(userInfo.name);
     const [phone, setPhone] = useState(userInfo.phone);
@@ -53,7 +41,7 @@ export default function Profile() {
             dispatch({
                 type: 'UPDATE_SUCCESS',
             });
-            ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+            contextDispatch({ type: 'USER_SIGNIN', payload: data });
             localStorage.setItem('userInfo', JSON.stringify(data));
             toast.success('Chỉnh sửa thông tin cá nhân thành công');
         } catch (err) {
@@ -87,7 +75,7 @@ export default function Profile() {
                         required
                     />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="name">
+                <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                         type="email"

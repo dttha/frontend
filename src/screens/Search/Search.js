@@ -13,39 +13,19 @@ import Loading from '../../components/Loading';
 import Message from '../../components/Message';
 import { ip } from '../../configs/ip';
 import Product from '../../components/Product';
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'FETCH_REQUEST':
-            return { ...state, loading: true };
-        case 'FETCH_SUCCESS':
-            return {
-                ...state,
-                products: action.payload.products,
-                page: action.payload.page,
-                pages: action.payload.pages,
-                countProducts: action.payload.countProducts,
-                loading: false,
-            };
-        case 'FETCH_FAIL':
-            return { ...state, loading: false, error: action.payload };
-
-        default:
-            return state;
-    }
-};
+import { reducer } from './reducer';
 
 const prices = [
     {
-        name: '1000đ to 500000đ',
+        name: '1000đ - 500000đ',
         value: '1000-500000',
     },
     {
-        name: '510000đ to $2000000đ',
+        name: '510000đ - 2000000đ',
         value: '510000-2000000',
     },
     {
-        name: '2010000đ to 10000000đ',
+        name: '2010000đ - 10000000đ',
         value: '2010000-10000000',
     },
 ];

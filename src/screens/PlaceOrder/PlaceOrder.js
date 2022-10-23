@@ -13,19 +13,7 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import { ip } from '../../configs/ip';
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'CREATE_REQUEST':
-            return { ...state, loading: true };
-        case 'CREATE_SUCCESS':
-            return { ...state, loading: false };
-        case 'CREATE_FAIL':
-            return { ...state, loading: false };
-        default:
-            return state;
-    }
-}
+import { reducer } from './reducer';
 
 export default function PlaceOrder() {
     const navigate = useNavigate();
@@ -60,7 +48,7 @@ export default function PlaceOrder() {
                     }
                 }
             )
-            contextDispatch({ type: 'CART_CLEAR ' })
+            contextDispatch({ type: 'CART_CLEAR' })
             dispatch({ type: 'CREATE_SUCCESS' })
             localStorage.removeItem('cartItems')
             navigate(`/order/${data.order._id}`)

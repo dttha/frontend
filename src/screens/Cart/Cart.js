@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Helmet } from "react-helmet-async";
@@ -15,11 +15,15 @@ export default function Cart() {
     const navigate = useNavigate()
     const { state, dispatch: contextDispatch } = useContext(Store)
     const {
+        userInfo,
         cart: { cartItems },
     } = state
 
     const updateCart = async (item, quantity) => {
-        const { data } = await axios.get(`${ip}/api/products/${item._id}`)
+        const { data } = await axios.get(
+            `${ip}/api/products/${item._id}`,
+            { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        );
         if (data.countInStock < quantity) {
             window.alert("Hết hàng")
             return

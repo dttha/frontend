@@ -9,23 +9,7 @@ import { getError } from '../utils';
 import Loading from '../../components/Loading';
 import { Store } from '../../store';
 import { ip } from '../../configs/ip';
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'FETCH_REQUEST':
-            return { ...state, loading: true };
-        case 'FETCH_SUCCESS':
-            return {
-                ...state,
-                summary: action.payload,
-                loading: false,
-            };
-        case 'FETCH_FAIL':
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
-};
+import { reducer } from './reducer';
 
 export default function Dashboard() {
     const [{ loading, summary, error }, dispatch] = useReducer(reducer, {

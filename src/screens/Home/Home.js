@@ -10,14 +10,14 @@ import Loading from "../../components/Loading"
 import Message from "../../components/Message"
 import { initialState, reducer } from "./reducer"
 import { ip } from "../../configs/ip"
-import handleUpload from "../../helper/uploadImage"
 
 export default function Home() {
     const [state, dispatch] = useReducer(logger(reducer), initialState)
-    const { loading, error, products } = state;
-    // const [products, setProducts] = useState([])
+    const { loading, error, products, advertisements } = state;
+    console.log("🚀 ~ file: Home.js ~ line 17 ~ Home ~ advertisements", advertisements)
     useEffect(() => {
         fetchData()
+        fetchDataAdvertisement()
     }, [])
     const fetchData = async () => {
         dispatch({ type: 'FETCH_REQUEST' })
@@ -27,19 +27,21 @@ export default function Home() {
         } catch (err) {
             dispatch({ type: 'FETCH_FAIL', payload: err.message })
         }
-        // setProducts(result.data)
+    }
+    const fetchDataAdvertisement = async () => {
+        dispatch({ type: 'FETCH_ADVERTISEMENT_REQUEST' })
+        try {
+            const result = await axios.get(`${ip}/api/advertisements`)
+            dispatch({ type: 'FETCH_ADVERTISEMENT_SUCCESS', payload: result.data })
+        } catch (err) {
+            dispatch({ type: 'FETCH_ADVERTISEMENT_FAIL', payload: err.message })
+        }
     }
     return <div>
         <Helmet>
             <title>Book store</title>
         </Helmet>
-        <input type="file" onChange={async (e) => {
-            if (e.target.files.length) {
-                const res = await handleUpload(e.target.files[0])
-                console.log(res);
-            }
-        }} />
-        <Slider></Slider>
+        <Slider advertisements={advertisements}></Slider>
         <div className="trend">Xu hướng mua sắm</div>
         <div className="products">
             {loading ? (

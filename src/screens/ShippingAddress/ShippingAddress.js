@@ -13,6 +13,7 @@ export default function ShippingAddress() {
         userInfo,
         cart: { shippingAddress },
     } = state
+    console.log("🚀 ~ file: ShippingAddress.js ~ line 16 ~ ShippingAddress ~ state", state)
     const [fullName, setFullName] = useState(shippingAddress.fullName || '');
     const [phone, setPhone] = useState(shippingAddress.phone || '');
     const [address, setAddress] = useState(shippingAddress.address || '');

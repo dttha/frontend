@@ -223,7 +223,7 @@ main{
 }
 
 .side-navbar {
-  width: 240px;
+  width: 200px;
   height: 100%;
   position: absolute;
   left: -300px;
@@ -236,7 +236,7 @@ main{
 }
 
 .active-cont{
-  margin-left: 240px;
+  margin-left: 200px;
 }
 
 .active-nav{
@@ -266,4 +266,31 @@ main{
 
 #search-li{
   margin: 10px 0px 10px 0px!important;
+}
+
+.dropdown-menu[data-bs-popper] {
+    left: -115px!important;
+}
+
+th{
+  vertical-align: top
+}
+
+.fixed{
+  position: fixed;
+  z-index: 9999;
+}
+
+.nav-fixed{
+  left: 0;
+  right: 0;
+  position: fixed;
+}
+
+.active-nav-fixed{
+  margin-left:200px;
+}
+
+.mt-70{
+  margin-top: 70px
 }

@@ -1,4 +1,6 @@
-import { createContext, useReducer } from "react";
+import axios from "axios";
+import { createContext, useEffect, useReducer } from "react";
+import { ip } from "./configs/ip";
 
 export const Store = createContext()
 
@@ -17,9 +19,8 @@ const initialState = {
             ? localStorage.getItem('shippingMethod')
             : '',
         // refesh trang nhung van giu nguyen trang do
-        cartItems: localStorage.getItem('cartItems')
-            ? JSON.parse(localStorage.getItem('cartItems'))
-            : []
+        cartItems: [],
+        cartId: null,
     }
 }
 function reducer(state, action) {
@@ -43,6 +44,21 @@ function reducer(state, action) {
             )
             localStorage.setItem('cartItems', JSON.stringify(cartItems))
             return { ...state, cart: { ...state.cart, cartItems } }
+        }
+        case 'GET_CART_SUCCESS': {
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    cartId: action.payload.cart._id,
+                    cartItems: action.payload.cart.cartItems.map((i) => {
+                        return {
+                            ...i.product,
+                            quantity: i.quantity
+                        }
+                    })
+                }
+            }
         }
         case 'CART_CLEAR':
             return { ...state, cart: { ...state.cart, cartItems: [] } }
@@ -77,18 +93,33 @@ function reducer(state, action) {
             }
         default:
             return state;
-            // return {
-            //     ...state,
-            //     cart: {
-            //         ...state.cart,
-            //         cartItems: [...state.cart.cartItems, action.payload]
-            //     }
-            // }
     }
 }
 
 export function StoreProvider(props) {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);    
     const value = { state, dispatch }
+    console.log(state);
+    useEffect(() => {
+        if (state.cart.cartId && state?.userInfo?.token && state.cart?.cartItems) {
+            const updateCart = async () => {
+                await axios.put(
+                    `${ip}/api/cart/${state.cart.cartId}`,
+                    {
+                        cartItems: state.cart.cartItems.map((i) => {
+                            return {
+                                product: i._id,
+                                quantity: i.quantity
+                            }
+                        })
+                    },
+                    {
+                        headers: { Authorization: `Bearer ${state.userInfo.token}` },
+                    }
+                );
+            }
+            updateCart()
+        }
+    }, [state.cart?.cartItems, state.cart?.cartId, state?.userInfo?.token])
     return <Store.Provider value={value}>{props.children}</Store.Provider>
 }

@@ -11,25 +11,7 @@ import { getError } from '../utils';
 import { ip } from '../../configs/ip';
 import Loading from '../../components/Loading';
 import Message from '../../components/Message';
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'FETCH_REQUEST':
-            return { ...state, loading: true };
-        case 'FETCH_SUCCESS':
-            return { ...state, loading: false };
-        case 'FETCH_FAIL':
-            return { ...state, loading: false, error: action.payload };
-        case 'UPDATE_REQUEST':
-            return { ...state, loadingUpdate: true };
-        case 'UPDATE_SUCCESS':
-            return { ...state, loadingUpdate: false };
-        case 'UPDATE_FAIL':
-            return { ...state, loadingUpdate: false };
-        default:
-            return state;
-    }
-};
+import { reducer } from './reducer';
 
 export default function UserEdit() {
     const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
@@ -85,7 +67,7 @@ export default function UserEdit() {
             dispatch({
                 type: 'UPDATE_SUCCESS',
             });
-            toast.success('User updated successfully');
+            toast.success('Cập nhật hồ sơ người dùng thành công');
             navigate('/admin/users');
         } catch (error) {
             toast.error(getError(error));
@@ -95,9 +77,9 @@ export default function UserEdit() {
     return (
         <Container className="small-container">
             <Helmet>
-                <title>Edit User ${userId}</title>
+                <title>Sửa hồ sơ ${userId}</title>
             </Helmet>
-            <h1>Edit User {userId}</h1>
+            <h1>Sửa hồ sơ {userId}</h1>
 
             {loading ? (
                 <Loading></Loading>
@@ -106,7 +88,7 @@ export default function UserEdit() {
             ) : (
                 <Form onSubmit={submitHandler}>
                     <Form.Group className="mb-3" controlId="name">
-                        <Form.Label>Name</Form.Label>
+                                <Form.Label>Họ và Tên</Form.Label>
                         <Form.Control
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -114,7 +96,7 @@ export default function UserEdit() {
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="phone">
-                        <Form.Label>Phone</Form.Label>
+                                <Form.Label>Số điện thoại</Form.Label>
                         <Form.Control
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
@@ -142,7 +124,7 @@ export default function UserEdit() {
 
                     <div className="mb-3">
                         <Button disabled={loadingUpdate} type="submit">
-                            Update
+                                    Sửa
                         </Button>
                         {loadingUpdate && <Loading></Loading>}
                     </div>
