@@ -86,7 +86,6 @@ export default function Footer() {
                     <div className="d-flex">
                         <div className="font-copyright-text">
                             Mạng xã hội&nbsp;
-
                         </div>
                         <div style={{ color: '#5B5D9B' }}>
                             <i className="fab fa-facebook" style={{ marginRight: 5 }}></i>

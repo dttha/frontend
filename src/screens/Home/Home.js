@@ -14,7 +14,6 @@ import { ip } from "../../configs/ip"
 export default function Home() {
     const [state, dispatch] = useReducer(logger(reducer), initialState)
     const { loading, error, products, advertisements } = state;
-    console.log("🚀 ~ file: Home.js ~ line 17 ~ Home ~ advertisements", advertisements)
     useEffect(() => {
         fetchData()
         fetchDataAdvertisement()

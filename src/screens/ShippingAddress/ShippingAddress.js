@@ -13,7 +13,6 @@ export default function ShippingAddress() {
         userInfo,
         cart: { shippingAddress },
     } = state
-    console.log("🚀 ~ file: ShippingAddress.js ~ line 16 ~ ShippingAddress ~ state", state)
     const [fullName, setFullName] = useState(shippingAddress.fullName || '');
     const [phone, setPhone] = useState(shippingAddress.phone || '');
     const [address, setAddress] = useState(shippingAddress.address || '');
@@ -50,6 +49,10 @@ export default function ShippingAddress() {
             })
         )
         navigate('/payment')
+    }
+    const backHandler = (e) => {
+        e.preventDefault();
+        navigate('/')
     }
     return <div>
         <Helmet>
@@ -113,7 +116,11 @@ export default function ShippingAddress() {
                     </Button>
                 </div>
             </Form>
-
+            <div className="mb-3">
+                <Button variant="primary" onClick={backHandler}>
+                    Quay lại
+                </Button>
+            </div>
         </div>
     </div>;
 }

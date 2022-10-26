@@ -117,12 +117,16 @@ export default function Search() {
             </Helmet>
             <Row>
                 <Col md={3}>
-                    <h3>Thể loại</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-12px' }}>
+                        <i className="fas fa-book-open" style={{ marginRight: 8, color: 'cyan', marginBottom: '4px' }}></i>
+                        <h5>Thể loại</h5>
+                    </div>
                     <div>
                         <ul id="search-ul">
                             <li id="search-li">
                                 <Link
-                                    className={'all' === category ? 'text-bold' : ''}
+                                    id="link-category"
+                                    className={'all' === category ? '' : ''}
                                     to={getFilterUrl({ category: 'all' })}
                                 >
                                     Tất cả
@@ -131,6 +135,7 @@ export default function Search() {
                             {categories && categories.map((c) => (
                                 <li id="search-li" key={c}>
                                     <Link
+                                        id="link-category"
                                         className={c === category ? 'text-bold' : ''}
                                         to={getFilterUrl({ category: c })}
                                     >
@@ -141,11 +146,15 @@ export default function Search() {
                         </ul>
                     </div>
                     <div>
-                        <h3>Giá</h3>
+                        <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-12px' }}>
+                            <i className="fas fa-dollar-sign" style={{ marginRight: 8, color: 'orange', marginBottom: 5 }}></i>
+                            <h5>Giá</h5>
+                        </div>
                         <ul id="search-ul">
                             <li id="search-li">
                                 <Link
-                                    className={'all' === price ? 'text-bold' : ''}
+                                    id="link-category"
+                                    className={'all' === price ? '' : ''}
                                     to={getFilterUrl({ price: 'all' })}
                                 >
                                     Tất cả
@@ -154,6 +163,7 @@ export default function Search() {
                             {prices && prices.map((p) => (
                                 <li id="search-li" key={p.value}>
                                     <Link
+                                        id="link-category"
                                         to={getFilterUrl({ price: p.value })}
                                         className={p.value === price ? 'text-bold' : ''}
                                     >
@@ -164,24 +174,29 @@ export default function Search() {
                         </ul>
                     </div>
                     <div>
-                        <h3>Trung bình đánh giá của khách hàng</h3>
+                        <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-12px' }}>
+                            <i className="fas fa-comments" style={{ marginRight: 8, color: 'blue', marginBottom: 6 }}></i>
+                            <h5>Trung bình đánh giá</h5>
+                        </div>
                         <ul id="search-ul">
                             {ratings && ratings.map((r) => (
                                 <li id="search-li" key={r.name}>
                                     <Link
+                                        style={{ textDecoration: "none" }}
                                         to={getFilterUrl({ rating: r.rating })}
                                         className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
                                     >
-                                        <Rating caption={' & up'} rating={r.rating}></Rating>
+                                        <Rating caption={' trở lên'} rating={r.rating}></Rating>
                                     </Link>
                                 </li>
                             ))}
                             <li id="search-li">
                                 <Link
+                                    id="link-category"
                                     to={getFilterUrl({ rating: 'all' })}
                                     className={rating === 'all' ? 'text-bold' : ''}
                                 >
-                                    <Rating caption={' & up'} rating={0}></Rating>
+                                    <Rating caption={' trở lên'} rating={0}></Rating>
                                 </Link>
                             </li>
                         </ul>
@@ -201,7 +216,7 @@ export default function Search() {
                                         {query !== 'all' && ' : ' + query}
                                         {category !== 'all' && ' : ' + category}
                                         {price !== 'all' && ' : Price ' + price}
-                                        {rating !== 'all' && ' : Rating ' + rating + ' & up'}
+                                                {rating !== 'all' && ' : ' + rating + ' Đánh giá trở lên'}
                                         {query !== 'all' ||
                                             category !== 'all' ||
                                             rating !== 'all' ||
@@ -226,7 +241,7 @@ export default function Search() {
                                         <option value="newest">Gần đây nhất</option>
                                         <option value="lowest">Giá: Thấp đến cao</option>
                                         <option value="highest">Giá: Cao xuống thấp</option>
-                                        <option value="toprated">Trung bình đánh giá của khách hàng</option>
+                                                <option value="toprated">Trung bình đánh giá</option>
                                     </select>
                                 </Col>
                             </Row>

@@ -26,6 +26,10 @@ export default function PaymentMethod() {
         localStorage.setItem('paymentMethod', paymentMethodName)
         navigate('/shippingmethod');
     }
+    const backHandler = (e) => {
+        e.preventDefault();
+        navigate('/shipping')
+    }
     return (
         <div>
             <Checkout step1 step2 step3></Checkout>
@@ -59,6 +63,11 @@ export default function PaymentMethod() {
                         <Button type="submit">Tiếp tục</Button>
                     </div>
                 </Form>
+                <div className="mb-3">
+                    <Button variant="primary" onClick={backHandler}>
+                        Quay lại
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -57,6 +57,10 @@ export default function PlaceOrder() {
             toast.error(getError(err))
         }
     };
+    const backHandler = (e) => {
+        e.preventDefault();
+        navigate('/shippingMethod')
+    }
 
     useEffect(() => {
         if (!cart.paymentMethod) {
@@ -170,6 +174,11 @@ export default function PlaceOrder() {
                                         >
                                             Đặt hàng
                                         </Button>
+                                        <div className="mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
+                                            <Button variant="primary" onClick={backHandler}>
+                                                Quay lại
+                                            </Button>
+                                        </div>
                                     </div>
                                     {loading && <Loading></Loading>}
                                 </ListGroup.Item>

@@ -77,6 +77,8 @@ main{
 
 .product-name{
   flex: 1;
+  text-decoration: none;
+  color: #13157f
 }
 
 .center{
@@ -268,7 +270,11 @@ main{
   margin: 10px 0px 10px 0px!important;
 }
 
-.dropdown-menu[data-bs-popper] {
+.lui {
+    left: 0px!important;
+}
+
+#admin-nav-dropdown + .dropdown-menu[data-bs-popper] {
     left: -115px!important;
 }
 
@@ -294,3 +300,16 @@ th{
 .mt-70{
   margin-top: 70px
 }
+
+#link-category{
+  color: #000!important;
+  text-decoration: none!important;
+}
+
+#link-category:hover{
+  background-color: #e8f6f9;
+  padding: 0.1875rem 0.5rem;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+

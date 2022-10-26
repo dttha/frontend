@@ -9,7 +9,6 @@ import { ip } from '../configs/ip';
 
 
 function Product(props) {
-    const navigate = useNavigate()
     const { product } = props;
     const { state, dispatch: contextDispatch } = useContext(Store)
     const { cart } = state;
@@ -26,7 +25,6 @@ function Product(props) {
             type: 'CART_ADD_ITEM',
             payload: { ...product, quantity }
         })
-        navigate('/cart')
     }
     return (
         <Card className="product">

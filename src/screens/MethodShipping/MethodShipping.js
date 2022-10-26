@@ -26,6 +26,10 @@ export default function MethodShipping() {
         localStorage.setItem('shippingMethod', shippingMethodName)
         navigate('/placeorder');
     }
+    const backHandler = (e) => {
+        e.preventDefault();
+        navigate('/payment')
+    }
     return (
         <div>
             <Checkout step1 step2 step3 step4></Checkout>
@@ -59,6 +63,11 @@ export default function MethodShipping() {
                         <Button type="submit">Tiếp tục</Button>
                     </div>
                 </Form>
+                <div className="mb-3">
+                    <Button variant="primary" onClick={backHandler}>
+                        Quay lại
+                    </Button>
+                </div>
             </div>
         </div>
     );

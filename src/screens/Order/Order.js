@@ -152,6 +152,10 @@ export default function Order() {
             dispatch({ type: 'DELIVER_FAIL' });
         }
     }
+    const backHandler = (e) => {
+        e.preventDefault();
+        navigate('/placeorder')
+    }
 
     return loading ? (
         <Loading></Loading>
@@ -278,6 +282,11 @@ export default function Order() {
                                                 </div>
                                             </ListGroup.Item>
                                         )}
+                                        <div className="mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
+                                            <Button variant="primary" onClick={backHandler}>
+                                                Quay lại
+                                            </Button>
+                                        </div>
                                 </ListGroup>
                             </Card.Body>
                         </Card>
