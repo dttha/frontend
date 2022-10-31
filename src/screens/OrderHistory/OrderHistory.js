@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Loading from '../../components/Loading';
 import Message from '../../components/Message';
 import { ip } from '../../configs/ip';
@@ -14,10 +15,27 @@ export default function OrderHistory() {
     const { state } = useContext(Store);
     const { userInfo } = state;
     const navigate = useNavigate();
-    const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
+    const [{ loading, error, orders, loadingDelete, successDelete }, dispatch] = useReducer(reducer, {
         loading: true,
         error: '',
     })
+    const deleteOrderHandler = async (order) => {
+        if (window.confirm('Bạn có chắc muốn hủy đơn hàng này?')) {
+            try {
+                dispatch({ type: 'DELETE_REQUEST' });
+                await axios.delete(`${ip}/api/orders/${order._id}`, {
+                    headers: { Authorization: `Bearer ${userInfo.token}` },
+                });
+                toast.success('Đơn hàng đã bị hủy.');
+                dispatch({ type: 'DELETE_SUCCESS' });
+            } catch (err) {
+                toast.error(getError(error));
+                dispatch({
+                    type: 'DELETE_FAIL',
+                });
+            }
+        }
+    };
     useEffect(() => {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' });
@@ -34,8 +52,12 @@ export default function OrderHistory() {
                 });
             }
         };
+        if (successDelete) {
+            dispatch({ type: 'DELETE_RESET' });
+        } else {
         fetchData();
-    }, [userInfo]);
+        }
+    }, [userInfo, successDelete]);
 
     return (
         <div>
@@ -43,6 +65,7 @@ export default function OrderHistory() {
                 <title>Lịch sử mua hàng</title>
             </Helmet>
             <h1>Lịch sử mua hàng</h1>
+            {loadingDelete && <Loading></Loading>}
             {loading ? (
                 <Loading></Loading>
             ) : error ? (
@@ -74,12 +97,21 @@ export default function OrderHistory() {
                                 <td>
                                     <Button
                                         type="button"
-                                        variant="light"
+                                        variant="primary"
+                                        style={{ marginRight: 10 }}
                                         onClick={() => {
                                             navigate(`/order/${order._id}`);
                                         }}
                                     >
                                         Chi tiết
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant="danger"
+                                        onClick={() => deleteOrderHandler(order)}
+                                        disabled={order.isPaid === true}
+                                    >
+                                        Hủy đơn
                                     </Button>
                                 </td>
                             </tr>

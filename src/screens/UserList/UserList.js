@@ -95,7 +95,7 @@ export default function UserList() {
                                 <td>
                                     <Button
                                         type="button"
-                                        variant="light"
+                                        variant="primary"
                                         onClick={() => navigate(`/admin/user/${user._id}`)}
                                     >
                                         Sửa
@@ -103,7 +103,7 @@ export default function UserList() {
                                     &nbsp;
                                     <Button
                                         type="button"
-                                        variant="light"
+                                        variant="danger"
                                         onClick={() => deleteHandler(user)}
                                     >
                                         Xóa

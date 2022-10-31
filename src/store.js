@@ -20,6 +20,9 @@ const initialState = {
             : '',
         // refesh trang nhung van giu nguyen trang do
         cartItems: [],
+        shippingPrice: localStorage.getItem('shippingPrice')
+            ? Number(localStorage.getItem('shippingPrice'))
+            : 0,
         cartId: null,
     }
 }
@@ -87,9 +90,14 @@ function reducer(state, action) {
                 cart: { ...state.cart, paymentMethod: action.payload },
             };
         case 'SAVE_SHIPPING_METHOD':
+            console.log(action.payload);
             return {
                 ...state,
-                cart: { ...state.cart, shippingMethod: action.payload },
+                cart: {
+                    ...state.cart,
+                    shippingMethod: action.payload.shippingMethodName,
+                    shippingPrice: action.payload.shippingPrice
+                },
             }
         default:
             return state;

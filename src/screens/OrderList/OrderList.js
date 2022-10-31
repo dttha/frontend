@@ -102,17 +102,17 @@ export default function OrderList() {
                                 <td>
                                     <Button
                                         type="button"
-                                        variant="light"
+                                        variant="primary"
                                         onClick={() => {
                                             navigate(`/order/${order._id}`);
                                         }}
                                     >
-                                        Xem chi tiết
+                                        Chi tiết
                                     </Button>
                                     &nbsp;
                                     <Button
                                         type="button"
-                                        variant="light"
+                                        variant="danger"
                                         onClick={() => deleteHandler(order)}
                                     >
                                         Xóa

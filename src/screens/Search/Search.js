@@ -212,7 +212,7 @@ export default function Search() {
                             <Row className="justify-content-between mb-3">
                                 <Col md={6}>
                                     <div>
-                                        {countProducts === 0 ? 'No' : countProducts} Kết quả
+                                                {countProducts === 0 ? '0' : countProducts} Kết quả
                                         {query !== 'all' && ' : ' + query}
                                         {category !== 'all' && ' : ' + category}
                                         {price !== 'all' && ' : Price ' + price}

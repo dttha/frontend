@@ -131,11 +131,11 @@ export default function AdvertisementList() {
                                 <tr key={advertisement._id}>
                                     <td>{advertisement._id}</td>
                                     <td>{advertisement.alt}</td>
-                                    <td>{advertisement.image}</td>
+                                    <td><img style={{ width: 150, height: 100, objectFit: 'cover', borderRadius: 5 }} src={advertisement.image} alt="" /></td>
                                     <td>
                                         <Button
                                             type="button"
-                                            variant="light"
+                                            variant="primary"
                                             onClick={() => navigate(`/admin/advertisement/${advertisement._id}`)}
                                         >
                                             Sửa
@@ -143,7 +143,7 @@ export default function AdvertisementList() {
                                         &nbsp;
                                         <Button
                                             type="button"
-                                            variant="light"
+                                            variant="danger"
                                             onClick={() => deleteHandler(advertisement)}
                                         >
                                             Xóa

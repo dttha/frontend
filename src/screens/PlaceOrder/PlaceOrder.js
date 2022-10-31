@@ -25,7 +25,6 @@ export default function PlaceOrder() {
     const { state, dispatch: contextDispatch } = useContext(Store);
     const { cart, userInfo } = state;
     cart.itemsPrice = cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
-    cart.shippingPrice = 0
     cart.totalPrice = cart.itemsPrice + cart.shippingPrice;
 
     const placeOrderHandler = async () => {
@@ -125,7 +124,7 @@ export default function PlaceOrder() {
                                                         src={item.image} alt={item.name}
                                                         className="img-fluid rounded img-thumbnail"
                                                     ></img>{' '}
-                                                    <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                                                    <Link style={{ textDecoration: 'none', color: '#000' }} to={`/product/${item.slug}`}>{item.name}</Link>
                                                 </Col>
                                                 <Col md={3}><span>{item.quantity}</span></Col>
                                                 <Col md={3}>{item.price}đ</Col>

@@ -42,6 +42,7 @@ export default function Order() {
         successPay: false,
         loadingPay: false,
     });
+    console.log("🚀 ~ file: Order.js ~ line 37 ~ Order ~ order", order)
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
 
@@ -256,7 +257,7 @@ export default function Order() {
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
-                                        {!order.isPaid && (
+                                        {order.paymentMethod === "Paypal" && !order.isPaid && (
                                             <ListGroup.Item>
                                                 {isPending ? (
                                                     <Loading />

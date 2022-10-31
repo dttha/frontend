@@ -8,7 +8,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useContext, useEffect, useState } from 'react';
 import { Store } from './store';
 import Home from './screens/Home/Home';
-import Product from './screens/ProductDetail.js/Product';
 import Cart from './screens/Cart/Cart';
 import SignIn from './screens/SignIn/SignIn';
 import { toast, ToastContainer } from 'react-toastify';
@@ -40,6 +39,7 @@ import UserList from './screens/UserList/UserList';
 import UserEdit from './screens/UserEdit/UserEdit';
 import AdvertisementList from './screens/AdvertisementList/AdvertisementList';
 import AdvertisementCreateEdit from './screens/AdvertisementCreateEdit/AdvertisementCreateEdit';
+import Product from './screens/ProductDetail/Product';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)

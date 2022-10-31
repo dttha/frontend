@@ -22,8 +22,10 @@ export default function MethodShipping() {
     }, [shippingAddress, navigate])
     const submitHandler = (e) => {
         e.preventDefault();
-        contextDispatch({ type: 'SAVE_SHIPPING_METHOD', payload: shippingMethodName })
+        const price = shippingMethodName === "Nhanh" ? 30000 : 20000
+        contextDispatch({ type: 'SAVE_SHIPPING_METHOD', payload: { shippingMethodName, shippingPrice: shippingMethodName === "Nhanh" ? 30000 : 20000 } })
         localStorage.setItem('shippingMethod', shippingMethodName)
+        localStorage.setItem('shippingPrice', price)
         navigate('/placeorder');
     }
     const backHandler = (e) => {

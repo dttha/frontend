@@ -153,7 +153,8 @@ export default function ProductList() {
                                     <td>
                                         <Button
                                             type="button"
-                                            variant="light"
+                                            variant="primary"
+                                            style={{ marginBottom: 10 }}
                                             onClick={() => navigate(`/admin/product/${product._id}`)}
                                         >
                                             Sửa
@@ -161,7 +162,7 @@ export default function ProductList() {
                                         &nbsp;
                                         <Button
                                             type="button"
-                                            variant="light"
+                                            variant="danger"
                                             onClick={() => deleteHandler(product)}
                                         >
                                             Xóa
