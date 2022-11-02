@@ -42,7 +42,6 @@ export default function Order() {
         successPay: false,
         loadingPay: false,
     });
-    console.log("🚀 ~ file: Order.js ~ line 37 ~ Order ~ order", order)
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
 
@@ -207,7 +206,7 @@ export default function Order() {
                         <Card className="mb-3">
                             <Card.Body>
                                 <Card.Title>Sản phẩm</Card.Title>
-                                    <ListGroup variant="flush" style={{ minWidth: 750 }}>
+                                    <ListGroup variant="flush" style={{ minWidth: 835 }}>
                                     {order.orderItems.map((item) => (
                                         <ListGroup.Item key={item._id}>
                                             <Row className="align-items-center">
@@ -217,7 +216,7 @@ export default function Order() {
                                                         alt={item.name}
                                                         className="img-fluid rounded img-thumbnail"
                                                     ></img>{' '}
-                                                    <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                                                    <Link to={`/product/${item.slug}`} className="product-name">{item.name}</Link>
                                                 </Col>
                                                 <Col md={3}>
                                                     <span>{item.quantity}</span>

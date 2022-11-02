@@ -67,7 +67,7 @@ function Product() {
     const submitHandler = async (e) => {
         e.preventDefault();
         if (!comment || !rating) {
-            toast.error('Please enter comment and rating');
+            toast.error('Vui lòng nhập nhận xét và đánh giá.');
             return;
         }
         try {

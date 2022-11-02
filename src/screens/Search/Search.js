@@ -115,7 +115,7 @@ export default function Search() {
             <Helmet>
                 <title>Tìm kiếm sách</title>
             </Helmet>
-            <Row>
+            <Row style={{ marginLeft: 5 }}>
                 <Col md={3}>
                     <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-12px' }}>
                         <i className="fas fa-book-open" style={{ marginRight: 8, color: 'cyan', marginBottom: '4px' }}></i>

@@ -119,15 +119,15 @@ export default function PlaceOrder() {
                                     {cart.cartItems.map((item) => (
                                         <ListGroup.Item key={item._id}>
                                             <Row className="align-items-center">
-                                                <Col md={6}>
+                                                <Col md={9}>
                                                     <img
                                                         src={item.image} alt={item.name}
                                                         className="img-fluid rounded img-thumbnail"
                                                     ></img>{' '}
                                                     <Link style={{ textDecoration: 'none', color: '#000' }} to={`/product/${item.slug}`}>{item.name}</Link>
                                                 </Col>
-                                                <Col md={3}><span>{item.quantity}</span></Col>
-                                                <Col md={3}>{item.price}đ</Col>
+                                                <Col md={1}><span>{item.quantity}</span></Col>
+                                                <Col md={2}>{item.price}đ</Col>
                                             </Row>
                                         </ListGroup.Item>
                                     ))}
@@ -173,11 +173,6 @@ export default function PlaceOrder() {
                                         >
                                             Đặt hàng
                                         </Button>
-                                        <div className="mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
-                                            <Button variant="primary" onClick={backHandler}>
-                                                Quay lại
-                                            </Button>
-                                        </div>
                                     </div>
                                     {loading && <Loading></Loading>}
                                 </ListGroup.Item>

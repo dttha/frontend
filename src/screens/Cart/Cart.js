@@ -63,7 +63,7 @@ export default function Cart() {
                                                     alt={item.name}
                                                     className="img-fluid rounded img-thumbnail"
                                                 ></img>{' '}
-                                                <Link style={{ textDecoration: 'none', color: '#000' }} to={`/product/${item.slug}`}>{item.name}</Link>
+                                                <Link className="product-name" to={`/product/${item.slug}`}>{item.name}</Link>
                                             </Col>
                                             <Col md={2}>
                                                 <Button

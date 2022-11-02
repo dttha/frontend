@@ -301,7 +301,7 @@ function App() {
         </Container>
       </main>
       <footer>
-        {/* <Footer></Footer> */}
+        <Footer></Footer>
       </footer>
     </div>
   );

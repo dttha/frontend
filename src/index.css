@@ -123,14 +123,14 @@ main{
 }
 
 .footer{
-  background-color: #13157f;
+  background-color: #F0F8FF;
   position: relative;
   overflow: hidden;
 }
 
 .footer-content {
   display: flex;
-  color: #fff;
+  color: #13157f;
   flex-wrap: wrap;
   width: 779px;
   justify-content: space-between;
@@ -145,7 +145,7 @@ main{
   line-height: 19px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #ffffff;
+  color: #13157f;
   opacity: 0.5;
 }
 
@@ -185,7 +185,7 @@ main{
 }
 
 .wrap-list-contact{
-  color: #fff;
+  color: #13157f;
 }
 
 .list-contact {

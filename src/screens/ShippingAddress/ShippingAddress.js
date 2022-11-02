@@ -111,16 +111,14 @@ export default function ShippingAddress() {
                     />
                 </Form.Group>
                 <div className="mb-3">
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" onClick={backHandler}>
+                        Quay lại
+                    </Button>
+                    <Button style={{ marginLeft: 10 }} variant="primary" type="submit">
                         Tiếp tục
                     </Button>
                 </div>
             </Form>
-            <div className="mb-3">
-                <Button variant="primary" onClick={backHandler}>
-                    Quay lại
-                </Button>
-            </div>
         </div>
     </div>;
 }
