@@ -231,7 +231,6 @@ function App() {
                 <OrderHistory />
               </ProtectedRoute>
             } />
-            {/* Admin Routes */}
             <Route
               path="/admin/dashboard"
               element={
@@ -301,7 +300,7 @@ function App() {
         </Container>
       </main>
       <footer>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </footer>
     </div>
   );

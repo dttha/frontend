@@ -5,8 +5,12 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../../store';
 import Checkout from '../../components/Checkout';
+import data from '../../local.json'
 
 export default function ShippingAddress() {
+    const [listDistrict, setListDistrict] = useState([])
+    const [listWard, setListWard] = useState([])
+
     const navigate = useNavigate()
     const { state, dispatch: contextDispatch } = useContext(Store)
     const {
@@ -16,9 +20,37 @@ export default function ShippingAddress() {
     const [fullName, setFullName] = useState(shippingAddress.fullName || '');
     const [phone, setPhone] = useState(shippingAddress.phone || '');
     const [address, setAddress] = useState(shippingAddress.address || '');
-    const [city, setCity] = useState(shippingAddress.city || '');
+    const [city, setCity] = useState(shippingAddress.city || 'Hà Nội');
     const [district, setDistrict] = useState(shippingAddress.district || '');
     const [wards, setWards] = useState(shippingAddress.wards || '');
+
+    useEffect(() => {
+        const findCity = data.find((i) => {
+            return i.name === city
+        })
+        if (findCity) {
+            setListDistrict(findCity.districts)
+            setDistrict(findCity.districts[0].name)
+        }
+    }, [city])
+
+    useEffect(() => {
+        setListWard([])
+
+        if (city) {
+            const findCity = data.find((i) => {
+                return i.name === city
+            })
+            if (findCity) {
+                const currentDistrict = listDistrict.find((i) => i.name === district)
+                if (currentDistrict) {
+                    setListWard(currentDistrict.wards)
+                    setWards(currentDistrict.wards[0].name)
+                }
+            }
+        }
+    }, [district, city, listDistrict])
+
     useEffect(() => {
         if (!userInfo) {
             navigate('/signin?redirect=shippingAddress')
@@ -80,27 +112,36 @@ export default function ShippingAddress() {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Thành phố</Form.Label>
-                    <Form.Control
+                    <Form.Select
                         value={city}
-                        onChange={(e) => setCity(e.target.value)}
+                        onChange={(e) => {
+                            console.log("🚀 ~ file: ShippingAddress.js ~ line 118 ~ ShippingAddress ~ e", e)
+                            return setCity(e.target.value)
+                        }}
                         required
-                    />
+                    >
+                        {data.map((i) => <option key={i.name} value={i.name}>{i.name}</option>)}
+                    </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Quận/ Huyện</Form.Label>
-                    <Form.Control
+                    <Form.Select
                         value={district}
                         onChange={(e) => setDistrict(e.target.value)}
                         required
-                    />
+                    >
+                        {listDistrict.map((i) => <option key={i.name} value={i.name}>{i.name}</option>)}
+                    </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Phường/ Xã</Form.Label>
-                    <Form.Control
+                    <Form.Select
                         value={wards}
                         onChange={(e) => setWards(e.target.value)}
                         required
-                    />
+                    >
+                        {listWard.map((i) => <option key={i.name} value={i.name}>{i.name}</option>)}
+                    </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Địa chỉ cụ thể</Form.Label>
@@ -111,7 +152,7 @@ export default function ShippingAddress() {
                     />
                 </Form.Group>
                 <div className="mb-3">
-                    <Button variant="primary" onClick={backHandler}>
+                    <Button variant="light" onClick={backHandler}>
                         Quay lại
                     </Button>
                     <Button style={{ marginLeft: 10 }} variant="primary" type="submit">

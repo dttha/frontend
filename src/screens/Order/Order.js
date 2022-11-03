@@ -1,9 +1,10 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import Form from 'react-bootstrap/Form';
 import Loading from '../../components/Loading';
 import Message from '../../components/Message';
 import { Store } from '../../store';
@@ -17,13 +18,21 @@ import { ip } from '../../configs/ip';
 import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import { reducer } from './reducer';
+import Modal from 'react-bootstrap/Modal';
+import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 
 export default function Order() {
     const { state } = useContext(Store);
+    const [comment, setComment] = useState('');
+    const [rating, setRating] = useState(0);
     const { userInfo } = state;
     const params = useParams();
     const { id: orderId } = params;
     const navigate = useNavigate();
+    const [idRating, setIdRating] = useState('');
+    const [isRating, setIsRating] = useState(false);
+    const handleClose = () => setIdRating('');
+    const handleShow = (id) => setIdRating(id);
     const [
         {
             loading,
@@ -42,6 +51,35 @@ export default function Order() {
         successPay: false,
         loadingPay: false,
     });
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        setIsRating(true)
+        if (!comment || !rating) {
+            toast.error('Vui lòng nhập nhận xét và đánh giá.');
+            return;
+        }
+        try {
+            await axios.post(
+                `${ip}/api/products/${idRating}/reviews`,
+                { rating, comment, name: userInfo.name },
+                {
+                    headers: { Authorization: `Bearer ${userInfo.token}` },
+                }
+            );
+
+            dispatch({
+                type: 'CREATE_SUCCESS',
+            });
+            toast.success('Gửi đánh giá thành công');
+            setIdRating('')
+        } catch (error) {
+            toast.error(getError(error));
+        } finally {
+            setIsRating(false)
+        }
+
+    };
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
 
@@ -218,10 +256,18 @@ export default function Order() {
                                                     ></img>{' '}
                                                     <Link to={`/product/${item.slug}`} className="product-name">{item.name}</Link>
                                                 </Col>
-                                                <Col md={3}>
+                                                <Col md={1}>
                                                     <span>{item.quantity}</span>
                                                 </Col>
                                                 <Col md={3}>{item.price}đ</Col>
+                                                <Col md={2}>
+                                                    {order.isDelivered && order.isPaid && (
+                                                        <Button variant="primary" onClick={() => handleShow(item._id)}>
+                                                            Đánh giá
+                                                        </Button>
+                                                    )
+                                                    }
+                                                </Col>
                                             </Row>
                                         </ListGroup.Item>
                                     ))}
@@ -292,6 +338,49 @@ export default function Order() {
                         </Card>
                     </Col>
                 </Row>
+                    <Modal show={idRating} onHide={handleClose} centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Đánh giá sản phẩm</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body><form onSubmit={submitHandler}>
+                            <Form.Group className="mb-3" controlId="rating">
+                                <Form.Select
+                                    aria-label="Rating"
+                                    value={rating}
+                                    onChange={(e) => setRating(e.target.value)}
+                                >
+                                    <option value="">Lựa chọn...</option>
+                                    <option value="1">1- Không tốt</option>
+                                    <option value="2">2- Khá tốt</option>
+                                    <option value="3">3- Tốt</option>
+                                    <option value="4">4- Rất tốt</option>
+                                    <option value="5">5- Tuyệt vời</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <FloatingLabel
+                                controlId="floatingTextarea"
+                                label="Viết bình luận"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Viết bình luận"
+                                    value={comment}
+                                    onChange={(e) => setComment(e.target.value)}
+                                />
+                            </FloatingLabel>
+
+                            <div className="mb-3">
+                                <Button disabled={isRating} type="submit">
+                                    Gửi
+                                </Button>
+                                <Button style={{ marginLeft: 15 }} variant="light" onClick={handleClose}>
+                                    Đóng
+                                </Button>
+                                {isRating && <Loading></Loading>}
+                            </div>
+                        </form></Modal.Body>
+                    </Modal>
             </div>
         )
 }

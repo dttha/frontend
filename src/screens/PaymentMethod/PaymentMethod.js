@@ -60,7 +60,7 @@ export default function PaymentMethod() {
                         />
                     </div>
                     <div className="mb-3">
-                        <Button variant="primary" onClick={backHandler}>
+                        <Button variant="light" onClick={backHandler}>
                             Quay lại
                         </Button>
                         <Button style={{ marginLeft: 10 }} variant="primary" type="submit">

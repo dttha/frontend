@@ -194,55 +194,6 @@ function Product() {
                                 </ListGroup.Item>
                             ))}
                         </ListGroup>
-                        <div className="my-3">
-                            {userInfo ? (
-                                <form onSubmit={submitHandler}>
-                                    <h2>Viết nhận xét của bạn về sản phẩm</h2>
-                                    <Form.Group className="mb-3" controlId="rating">
-                                        <Form.Label>Đánh giá</Form.Label>
-                                        <Form.Select
-                                            aria-label="Rating"
-                                            value={rating}
-                                            onChange={(e) => setRating(e.target.value)}
-                                        >
-                                            <option value="">Lựa chọn...</option>
-                                            <option value="1">1- Không tốt</option>
-                                            <option value="2">2- Khá tốt</option>
-                                            <option value="3">3- Tốt</option>
-                                            <option value="4">4- Rất tốt</option>
-                                            <option value="5">5- Tuyệt vời</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    <FloatingLabel
-                                        controlId="floatingTextarea"
-                                        label="Viết bình luận"
-                                        className="mb-3"
-                                    >
-                                        <Form.Control
-                                            as="textarea"
-                                            placeholder="Leave a comment here"
-                                            value={comment}
-                                            onChange={(e) => setComment(e.target.value)}
-                                        />
-                                    </FloatingLabel>
-
-                                    <div className="mb-3">
-                                        <Button disabled={loadingCreateReview} type="submit">
-                                            Gửi
-                                        </Button>
-                                        {loadingCreateReview && <Loading></Loading>}
-                                    </div>
-                                </form>
-                            ) : (
-                                <Message>
-                                        Vui lòng{' '}
-                                    <Link to={`/signin?redirect=/product/${product.slug}`}>
-                                            đăng nhập
-                                    </Link>{' '}
-                                        để viết đánh giá về sản phẩm
-                                </Message>
-                            )}
-                        </div>
                     </div>
                 </div>)
     )
