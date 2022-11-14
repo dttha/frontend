@@ -346,6 +346,7 @@ export default function Order() {
                             <Form.Group className="mb-3" controlId="rating">
                                 <Form.Select
                                     aria-label="Rating"
+                                    required
                                     value={rating}
                                     onChange={(e) => setRating(e.target.value)}
                                 >
@@ -364,6 +365,7 @@ export default function Order() {
                             >
                                 <Form.Control
                                     as="textarea"
+                                    required
                                     placeholder="Viết bình luận"
                                     value={comment}
                                     onChange={(e) => setComment(e.target.value)}
