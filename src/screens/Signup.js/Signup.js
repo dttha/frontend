@@ -64,6 +64,7 @@ export default function Signup() {
                     <Form.Control
                         onChange={(e) => setName(e.target.value)}
                         required
+                        placeholder="Nhập họ và tên"
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="phone">
@@ -71,6 +72,7 @@ export default function Signup() {
                     <Form.Control
                         onChange={(e) => setPhone(e.target.value)}
                         required
+                        placeholder="Nhập số điện thoại"
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="email">
@@ -78,6 +80,7 @@ export default function Signup() {
                     <Form.Control
                         type="email"
                         required
+                        placeholder="Nhập email"
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </Form.Group>
@@ -86,6 +89,7 @@ export default function Signup() {
                     <Form.Control
                         type="password"
                         required
+                        placeholder="Nhập mật khẩu"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
@@ -94,6 +98,7 @@ export default function Signup() {
                     <Form.Control
                         type="password"
                         required
+                        placeholder="Nhập lại mật khẩu"
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </Form.Group>

@@ -313,3 +313,12 @@ th{
   transition: 0.2s;
 }
 
+.fhs-textbox-recoverysend{
+    display: block;
+    position: absolute;
+    top: 38px;
+    right: 12px;
+    color: #2489F4;
+    cursor: pointer;
+    user-select: none;
+}

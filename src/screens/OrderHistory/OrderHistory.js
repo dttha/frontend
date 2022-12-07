@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Loading from '../../components/Loading';
 import Message from '../../components/Message';
 import { ip } from '../../configs/ip';
+import formatMoney from '../../helper/format';
 import { Store } from '../../store';
 import { getError } from '../utils';
 import { reducer } from './reducer';
@@ -87,7 +88,7 @@ export default function OrderHistory() {
                             <tr key={order._id}>
                                 <td>{order._id}</td>
                                 <td>{order.createdAt.substring(0, 10)}</td>
-                                <td>{order.totalPrice}</td>
+                                <td>{formatMoney(order.totalPrice)}</td>
                                 <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'Chưa thanh toán'}</td>
                                 <td>
                                     {order.isDelivered

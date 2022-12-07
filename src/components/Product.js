@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { Store } from '../store';
 import { ip } from '../configs/ip';
+import { toast } from 'react-toastify'
+import formatMoney from '../helper/format';
 
 
 function Product(props) {
@@ -21,6 +23,7 @@ function Product(props) {
             window.alert("Hết hàng")
             return
         }
+        toast.success("Thêm vào giỏ hàng thành công")
         contextDispatch({
             type: 'CART_ADD_ITEM',
             payload: { ...product, quantity }
@@ -38,7 +41,7 @@ function Product(props) {
                     </Card.Title>
                 </Link>
                 <Rating rating={product.rating} numReviews={product.numReviews} />
-                <Card.Text>{product.price}đ</Card.Text>
+                <Card.Text>{formatMoney(product.price)}</Card.Text>
                 {product.countInStock === 0 ? (<Button variant="light" disabled>Hết hàng</Button>)
                     :
                     (<Button onClick={() => addToCart(product)}>Thêm vào giỏ hàng</Button>)

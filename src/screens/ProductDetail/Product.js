@@ -19,6 +19,7 @@ import { reducer } from "./reducer";
 import { ip } from "../../configs/ip";
 import { toast } from "react-toastify";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import formatMoney from "../../helper/format";
 
 function Product() {
     let reviewsRef = useRef();
@@ -117,7 +118,7 @@ function Product() {
                                     <Rating rating={product.rating} numReviews={product.numReviews} />
                                 </ListGroup>
                                 <ListGroup className="mt-3">
-                                    Giá: {product.price}đ
+                                    Giá: {formatMoney(product.price)}
                                 </ListGroup>
                                 <ListGroup className="mt-3">
                                     Tác giả: {product.author}
@@ -149,7 +150,7 @@ function Product() {
                                         <ListGroup>
                                             <Row>
                                                 <Col>Giá:</Col>
-                                                <Col>{product.price}đ</Col>
+                                                <Col>{formatMoney(product.price)}</Col>
                                             </Row>
                                         </ListGroup>
                                         <ListGroup className="mt-3">

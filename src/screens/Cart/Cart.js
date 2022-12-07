@@ -10,6 +10,7 @@ import Message from "../../components/Message";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { ip } from "../../configs/ip";
+import formatMoney from "../../helper/format";
 
 export default function Cart() {
     const navigate = useNavigate()
@@ -35,6 +36,11 @@ export default function Cart() {
     }
     const removeItem = (item) => {
         contextDispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+    }
+    const confirmRemove = (item) => {
+        if (window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+            removeItem(item)
+        }
     }
     const checkout = () => {
         navigate('/signin?redirect=/shipping')
@@ -86,10 +92,10 @@ export default function Cart() {
                                                     <i className="fas fa-plus-circle"></i>
                                                 </Button>
                                             </Col>
-                                            <Col md={2}>{item.price}đ</Col>
+                                            <Col md={2}>{formatMoney(item.price)}</Col>
                                             <Col md={2}>
                                                 <Button
-                                                    onClick={() => removeItem(item)}
+                                                    onClick={() => confirmRemove(item)}
                                                     variant="light"
                                                 >
                                                     <i className="fas fa-trash"></i>
@@ -109,7 +115,7 @@ export default function Cart() {
                                 <ListGroup.Item>
                                     <h3>
                                         Tổng tiền: {' '}
-                                        {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}đ
+                                        {formatMoney(cartItems.reduce((a, c) => a + c.price * c.quantity, 0))}
                                     </h3>
                                 </ListGroup.Item>
                                 <ListGroup.Item>

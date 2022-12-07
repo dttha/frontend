@@ -14,6 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import { ip } from '../../configs/ip';
 import { reducer } from './reducer';
+import formatMoney from '../../helper/format';
 
 export default function PlaceOrder() {
     const navigate = useNavigate();
@@ -127,7 +128,7 @@ export default function PlaceOrder() {
                                                     <Link style={{ textDecoration: 'none', color: '#000' }} to={`/product/${item.slug}`}>{item.name}</Link>
                                                 </Col>
                                                 <Col md={1}><span>{item.quantity}</span></Col>
-                                                <Col md={2}>{item.price}đ</Col>
+                                                <Col md={2}>{formatMoney(item.price)}</Col>
                                             </Row>
                                         </ListGroup.Item>
                                     ))}
@@ -145,13 +146,13 @@ export default function PlaceOrder() {
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Sản phẩm</Col>
-                                        <Col>{cart.itemsPrice}đ</Col>
+                                        <Col>{formatMoney(cart.itemsPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Phí ship</Col>
-                                        <Col>{cart.shippingPrice}đ</Col>
+                                        <Col>{formatMoney(cart.shippingPrice)}</Col>
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
@@ -160,7 +161,7 @@ export default function PlaceOrder() {
                                             <strong> Tổng tiền </strong>
                                         </Col>
                                         <Col>
-                                            <strong>{cart.totalPrice}đ</strong>
+                                            <strong>{formatMoney(cart.totalPrice)}</strong>
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>

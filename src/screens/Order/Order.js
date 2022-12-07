@@ -20,6 +20,8 @@ import Button from 'react-bootstrap/Button';
 import { reducer } from './reducer';
 import Modal from 'react-bootstrap/Modal';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
+import formatMoney from '../../helper/format';
+import moment from 'moment'
 
 export default function Order() {
     const { state } = useContext(Store);
@@ -219,7 +221,7 @@ export default function Order() {
                                 </Card.Text>
                                 {order.isDelivered ? (
                                     <Message variant="success">
-                                        Được giao lúc {order.deliveredAt}
+                                            Được giao lúc {moment(order.deliveredAt).format('YYYY-MM-DD HH:mm:ss')}
                                     </Message>
                                 ) : (
                                     <Message variant="danger">Chưa giao hàng.</Message>
@@ -234,7 +236,7 @@ export default function Order() {
                                 </Card.Text>
                                 {order.isPaid ? (
                                     <Message variant="success">
-                                        Thanh toán lúc {order.paidAt}
+                                            Thanh toán lúc {moment(order.paidAt).format('YYYY-MM-DD HH:mm:ss')}
                                     </Message>
                                 ) : (
                                     <Message variant="danger">Chưa thanh toán.</Message>
@@ -259,7 +261,7 @@ export default function Order() {
                                                 <Col md={1}>
                                                     <span>{item.quantity}</span>
                                                 </Col>
-                                                <Col md={3}>{item.price}đ</Col>
+                                                <Col md={3}>{formatMoney(item.price)}</Col>
                                                 <Col md={2}>
                                                     {order.isDelivered && order.isPaid && (
                                                         <Button variant="primary" onClick={() => handleShow(item._id)}>
@@ -283,13 +285,13 @@ export default function Order() {
                                     <ListGroup.Item>
                                         <Row>
                                             <Col>Sản phẩm</Col>
-                                            <Col>{order.itemsPrice}đ</Col>
+                                                <Col>{formatMoney(order.itemsPrice)}</Col>
                                         </Row>
                                     </ListGroup.Item>
                                     <ListGroup.Item>
                                         <Row>
                                             <Col>Phí ship</Col>
-                                            <Col>{order.shippingPrice}đ</Col>
+                                                <Col>{formatMoney(order.shippingPrice)}</Col>
                                         </Row>
                                     </ListGroup.Item>
                                     <ListGroup.Item>
@@ -298,7 +300,7 @@ export default function Order() {
                                                 <strong> Tổng tiền</strong>
                                             </Col>
                                             <Col>
-                                                <strong>{order.totalPrice}đ</strong>
+                                                    <strong>{formatMoney(order.totalPrice)}</strong>
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -328,11 +330,11 @@ export default function Order() {
                                                 </div>
                                             </ListGroup.Item>
                                         )}
-                                        <div className="mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
+                                        {/* <div className="mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
                                             <Button variant="primary" onClick={backHandler}>
                                                 Quay lại
                                             </Button>
-                                        </div>
+                                        </div> */}
                                 </ListGroup>
                             </Card.Body>
                         </Card>

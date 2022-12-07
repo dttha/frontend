@@ -56,24 +56,25 @@ export default function ProductList() {
 
     const createHandler = async () => {
         if (window.confirm('Bạn muốn thêm sản phẩm?')) {
-            try {
-                dispatch({ type: 'CREATE_REQUEST' });
-                const { data } = await axios.post(
-                    `${ip}/api/products`,
-                    {},
-                    {
-                        headers: { Authorization: `Bearer ${userInfo.token}` },
-                    }
-                );
-                toast.success('Sản phẩm đã được thêm mới thành công');
-                dispatch({ type: 'CREATE_SUCCESS' });
-                navigate(`/admin/product/${data.product._id}`);
-            } catch (err) {
-                toast.error(getError(error));
-                dispatch({
-                    type: 'CREATE_FAIL',
-                });
-            }
+            navigate(`/admin/product/create`);
+            // try {
+            //     dispatch({ type: 'CREATE_REQUEST' });
+            //     const { data } = await axios.post(
+            //         `${ip}/api/products`,
+            //         {},
+            //         {
+            //             headers: { Authorization: `Bearer ${userInfo.token}` },
+            //         }
+            //     );
+            //     toast.success('Sản phẩm đã được thêm mới thành công');
+            //     dispatch({ type: 'CREATE_SUCCESS' });
+            //     navigate(`/admin/product/${data.product._id}`);
+            // } catch (err) {
+            //     toast.error(getError(error));
+            //     dispatch({
+            //         type: 'CREATE_FAIL',
+            //     });
+            // }
         }
     };
 

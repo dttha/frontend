@@ -40,6 +40,8 @@ import UserEdit from './screens/UserEdit/UserEdit';
 import AdvertisementList from './screens/AdvertisementList/AdvertisementList';
 import AdvertisementCreateEdit from './screens/AdvertisementCreateEdit/AdvertisementCreateEdit';
 import Product from './screens/ProductDetail/Product';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
+import ForwardPassword from './screens/ForwardPassword/ForwardPassword';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Store)
@@ -201,34 +203,121 @@ function App() {
       <main>
         <Container className='mt-70 mb-5' style={{ minHeight: "65vh" }}>
           <Routes>
-            <Route path="/product/:slug" element={<Product />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/search" element={<Search />} />
+            <Route path="/product/:slug" element={
+              <>
+                <Product />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
+            <Route path="/cart" element={
+              <>
+                <Cart />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
+            <Route path="/search" element={
+              <>
+                <Search />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forwardPassword/:method" element={<ForwardPassword />} />
             <Route
               path="/profile"
               element={
                 <ProtectedRoute>
                   <Profile />
+                  <MessengerCustomerChat
+                    pageId="102925642158931"
+                    appId="1167924590582344"
+                  />
                 </ProtectedRoute>
               }
-            />
-            <Route path="/shipping" element={<ShippingAddress />} />
-            <Route path="/payment" element={<PaymentMethod />} />
-            <Route path="/shippingmethod" element={<MethodShipping />} />
-            <Route path="/placeorder" element={<PlaceOrder />} />
+            >
+
+            </Route>
+            <Route path="/shipping" element={
+              <>
+                <ShippingAddress />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
+            <Route path="/payment" element={
+              <>
+                <PaymentMethod />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
+            <Route path="/shippingmethod" element={
+              <>
+                <MethodShipping />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
+            <Route path="/placeorder" element={
+              <>
+                <PlaceOrder />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
             <Route
               path="/order/:id"
               element={
                 <ProtectedRoute>
                   <Order />
+                  <MessengerCustomerChat
+                    pageId="102925642158931"
+                    appId="1167924590582344"
+                  />
                 </ProtectedRoute>
               }
-            ></Route>
+            >
+
+            </Route>
             <Route path="/orderHistory" element={
               <ProtectedRoute>
                 <OrderHistory />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
               </ProtectedRoute>
             } />
             <Route
@@ -295,7 +384,17 @@ function App() {
                 </AdminRoute>
               }
             ></Route>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={
+              <>
+                <Home />
+                <MessengerCustomerChat
+                  pageId="102925642158931"
+                  appId="1167924590582344"
+                />
+              </>
+            }>
+
+            </Route>
           </Routes>
         </Container>
       </main>

@@ -56,24 +56,25 @@ export default function AdvertisementList() {
 
     const createHandler = async () => {
         if (window.confirm('Bạn muốn thêm ảnh quảng cáo?')) {
-            try {
-                dispatch({ type: 'CREATE_REQUEST' });
-                const { data } = await axios.post(
-                    `${ip}/api/advertisements`,
-                    {},
-                    {
-                        headers: { Authorization: `Bearer ${userInfo.token}` },
-                    }
-                );
-                toast.success('Ảnh quảng cáo đã được thêm mới thành công');
-                dispatch({ type: 'CREATE_SUCCESS' });
-                navigate(`/admin/advertisement/${data.advertisement._id}`);
-            } catch (err) {
-                toast.error(getError(error));
-                dispatch({
-                    type: 'CREATE_FAIL',
-                });
-            }
+            navigate(`/admin/advertisement/create`);
+            // try {
+            //     dispatch({ type: 'CREATE_REQUEST' });
+            //     const { data } = await axios.post(
+            //         `${ip}/api/advertisements`,
+            //         {},
+            //         {
+            //             headers: { Authorization: `Bearer ${userInfo.token}` },
+            //         }
+            //     );
+            //     toast.success('Ảnh quảng cáo đã được thêm mới thành công');
+            //     dispatch({ type: 'CREATE_SUCCESS' });
+            //     navigate(`/admin/advertisement/${data.advertisement._id}`);
+            // } catch (err) {
+            //     toast.error(getError(error));
+            //     dispatch({
+            //         type: 'CREATE_FAIL',
+            //     });
+            // }
         }
     };
 

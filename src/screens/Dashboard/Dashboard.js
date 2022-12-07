@@ -10,6 +10,7 @@ import Loading from '../../components/Loading';
 import { Store } from '../../store';
 import { ip } from '../../configs/ip';
 import { reducer } from './reducer';
+import formatMoney from '../../helper/format';
 
 export default function Dashboard() {
     const [{ loading, summary, error }, dispatch] = useReducer(reducer, {
@@ -74,9 +75,9 @@ export default function Dashboard() {
                             <Card>
                                 <Card.Body>
                                     <Card.Title>
-                                        {summary.orders && summary.users[0]
+                                                {formatMoney(summary.orders && summary.users[0]
                                             ? summary.orders[0].totalSales
-                                            : 0}đ
+                                                    : 0)}
                                     </Card.Title>
                                     <Card.Text> Số tiền đặt hàng</Card.Text>
                                 </Card.Body>

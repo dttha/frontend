@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../../store';
 import Checkout from '../../components/Checkout';
 import data from '../../local.json'
+import { isValidPhoneNumber } from '../../helper/validate';
+import { toast } from 'react-toastify';
 
 export default function ShippingAddress() {
     const [listDistrict, setListDistrict] = useState([])
@@ -58,6 +60,10 @@ export default function ShippingAddress() {
     }, [userInfo, navigate]);
     const submitHandler = (e) => {
         e.preventDefault();
+        if (!isValidPhoneNumber(phone)) {
+            toast.error("Vui lòng nhập đúng định dạng số điện thoại")
+            return
+        }
         contextDispatch({
             type: 'SAVE_SHIPPING_ADDRESS',
             payload: {
@@ -109,6 +115,11 @@ export default function ShippingAddress() {
                         onChange={(e) => setPhone(e.target.value)}
                         required
                     />
+                    {phone && !isValidPhoneNumber(phone) &&
+                        <div style={{ color: 'red', fontSize: 13 }}>
+                            Số điện thoại không hợp lệ
+                        </div>
+                    }
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Thành phố</Form.Label>

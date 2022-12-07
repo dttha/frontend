@@ -18,12 +18,13 @@ export default function ProductCreateEdit() {
     const navigate = useNavigate();
     const params = useParams(); // /product/:id
     const { id: productId } = params;
+    const isCreate = productId === "create"
 
     const { state } = useContext(Store);
     const { userInfo } = state;
     const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
         useReducer(reducer, {
-            loading: true,
+            loading: isCreate ? false : true,
             error: '',
         });
 
@@ -42,6 +43,7 @@ export default function ProductCreateEdit() {
     const [description, setDescription] = useState('');
 
     useEffect(() => {
+
         const fetchData = async () => {
             try {
                 dispatch({ type: 'FETCH_REQUEST' });
@@ -67,16 +69,32 @@ export default function ProductCreateEdit() {
                 });
             }
         };
-        fetchData();
+        if (isCreate) {
+
+        } else {
+            fetchData();
+        }
+
     }, [productId]);
     const submitHandler = async (e) => {
+        let id = productId
         e.preventDefault();
         try {
+            if (isCreate) {
+                const { data } = await axios.post(
+                    `${ip}/api/products`,
+                    {},
+                    {
+                        headers: { Authorization: `Bearer ${userInfo.token}` },
+                    }
+                );
+                id = data.product._id
+            }
             dispatch({ type: 'UPDATE_REQUEST' });
             await axios.put(
-                `${ip}/api/products/${productId}`,
+                `${ip}/api/products/${id}`,
                 {
-                    _id: productId,
+                    _id: id,
                     name,
                     slug,
                     image,
@@ -98,7 +116,7 @@ export default function ProductCreateEdit() {
             dispatch({
                 type: 'UPDATE_SUCCESS',
             });
-            toast.success('Chỉnh sửa sản phẩm thành công');
+            toast.success(`${isCreate ? "Thêm" : "Chỉnh sửa"} sản phẩm thành công`);
             navigate('/admin/products');
         } catch (err) {
             toast.error(getError(err));
@@ -123,9 +141,9 @@ export default function ProductCreateEdit() {
     return (
         <Container className="small-container">
             <Helmet>
-                <title>Thêm/Sửa sản phẩm ${productId}</title>
+                <title>{isCreate ? "Thêm" : "Sửa"} sản phẩm ${!isCreate ? productId : ""}</title>
             </Helmet>
-            <h1>Thêm/Sửa sản phẩm {productId}</h1>
+            <h1>{isCreate ? "Thêm" : "Sửa"} sản phẩm {!isCreate ? productId : ""}</h1>
 
             {loading ? (
                 <Loading></Loading>
@@ -244,7 +262,7 @@ export default function ProductCreateEdit() {
                     </Form.Group>
                     <div className="mb-3">
                         <Button disabled={loadingUpdate} type="submit">
-                            Thêm/Sửa
+                                    {isCreate ? "Thêm" : "Sửa"}
                         </Button>
                         {loadingUpdate && <Loading></Loading>}
                     </div>

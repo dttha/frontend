@@ -18,12 +18,13 @@ export default function AdvertisementCreateEdit() {
     const navigate = useNavigate();
     const params = useParams();
     const { id: advertisementId } = params;
+    const isCreate = advertisementId === 'create'
 
     const { state } = useContext(Store);
     const { userInfo } = state;
     const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
         useReducer(reducer, {
-            loading: true,
+            loading: isCreate ? false : true,
             error: '',
         });
 
@@ -45,16 +46,29 @@ export default function AdvertisementCreateEdit() {
                 });
             }
         };
-        fetchData();
+        if (!isCreate) {
+            fetchData();
+        }
     }, [advertisementId]);
     const submitHandler = async (e) => {
         e.preventDefault();
+        let id = advertisementId
         try {
+            if (isCreate) {
+                const { data } = await axios.post(
+                    `${ip}/api/advertisements`,
+                    {},
+                    {
+                        headers: { Authorization: `Bearer ${userInfo.token}` },
+                    }
+                );
+                id = data.advertisement._id
+            }
             dispatch({ type: 'UPDATE_REQUEST' });
             await axios.put(
-                `${ip}/api/advertisements/${advertisementId}`,
+                `${ip}/api/advertisements/${id}`,
                 {
-                    _id: advertisementId,
+                    _id: id,
                     alt,
                     image,
                 },
@@ -65,7 +79,7 @@ export default function AdvertisementCreateEdit() {
             dispatch({
                 type: 'UPDATE_SUCCESS',
             });
-            toast.success('Chỉnh sửa sản phẩm thành công');
+            toast.success(`${isCreate ? "Thêm" : "Chỉnh sửa"} ảnh bìa quảng cáo thành công`);
             navigate('/admin/advertisements');
         } catch (err) {
             toast.error(getError(err));
@@ -90,9 +104,9 @@ export default function AdvertisementCreateEdit() {
     return (
         <Container className="small-container">
             <Helmet>
-                <title>Thêm/Sửa ảnh quảng cáo ${advertisementId}</title>
+                <title>{isCreate ? "Thêm" : "Sửa"} ảnh quảng cáo ${advertisementId}</title>
             </Helmet>
-            <h1>Thêm/Sửa ảnh quảng cáo {advertisementId}</h1>
+            <h1>{isCreate ? "Thêm" : "Sửa"} ảnh quảng cáo {advertisementId}</h1>
             {loading ? (
                 <Loading></Loading>
             ) : error ? (
@@ -122,7 +136,7 @@ export default function AdvertisementCreateEdit() {
                     </Form.Group>
                     <div className="mb-3">
                         <Button disabled={loadingUpdate} type="submit">
-                            Thêm/Sửa
+                                    {isCreate ? "Thêm" : "Sửa"}
                         </Button>
                         {loadingUpdate && <Loading></Loading>}
                     </div>

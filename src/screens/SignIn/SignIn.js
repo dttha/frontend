@@ -55,6 +55,7 @@ export default function SignIn() {
                     <Form.Control
                         type="email"
                         required
+                        placeholder="Nhập email"
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </Form.Group>
@@ -63,6 +64,7 @@ export default function SignIn() {
                     <Form.Control
                         type="password"
                         required
+                        placeholder="Nhập mật khẩu"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
@@ -72,6 +74,9 @@ export default function SignIn() {
                 <div className="mb-3">
                     Bạn chưa có tài khoản?{' '}
                     <Link to={`/signup?redirect=${redirect}`}>Tạo tài khoản</Link>
+                </div>
+                <div className="mb-3">
+                    <Link to={`/forwardPassword/request`}>Quên mật khẩu?</Link>
                 </div>
             </Form>
         </Container>
