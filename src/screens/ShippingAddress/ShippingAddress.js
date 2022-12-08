@@ -24,7 +24,7 @@ export default function ShippingAddress() {
     const [address, setAddress] = useState(shippingAddress.address || '');
     const [city, setCity] = useState(shippingAddress.city || 'Hà Nội');
     const [district, setDistrict] = useState(shippingAddress.district || '');
-    const [wards, setWards] = useState(shippingAddress.wards || '');
+    const [ward, setward] = useState(shippingAddress.ward || '');
 
     useEffect(() => {
         const findCity = data.find((i) => {
@@ -46,8 +46,8 @@ export default function ShippingAddress() {
             if (findCity) {
                 const currentDistrict = listDistrict.find((i) => i.name === district)
                 if (currentDistrict) {
-                    setListWard(currentDistrict.wards)
-                    setWards(currentDistrict.wards[0].name)
+                    setListWard(currentDistrict.ward)
+                    setward(currentDistrict.ward[0].name)
                 }
             }
         }
@@ -71,7 +71,7 @@ export default function ShippingAddress() {
                 phone,
                 city,
                 district,
-                wards,
+                ward,
                 address
             }
         })
@@ -82,7 +82,7 @@ export default function ShippingAddress() {
                 phone,
                 city,
                 district,
-                wards,
+                ward,
                 address
             })
         )
@@ -147,8 +147,8 @@ export default function ShippingAddress() {
                 <Form.Group className="mb-3" controlId="fullName">
                     <Form.Label>Phường/ Xã</Form.Label>
                     <Form.Select
-                        value={wards}
-                        onChange={(e) => setWards(e.target.value)}
+                        value={ward}
+                        onChange={(e) => setward(e.target.value)}
                         required
                     >
                         {listWard.map((i) => <option key={i.name} value={i.name}>{i.name}</option>)}

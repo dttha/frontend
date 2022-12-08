@@ -216,7 +216,7 @@ export default function Order() {
                                     <strong>Họ và tên:</strong> {order.shippingAddress.fullName} <br />
                                     <strong>Số điện thoại:</strong> {order.shippingAddress.phone} <br />
                                     <strong>Địa chỉ: </strong> {order.shippingAddress.address},
-                                    {order.shippingAddress.wards}, {order.shippingAddress.district}
+                                        {order.shippingAddress.ward}, {order.shippingAddress.district}
                                     ,{order.shippingAddress.city}
                                 </Card.Text>
                                 {order.isDelivered ? (

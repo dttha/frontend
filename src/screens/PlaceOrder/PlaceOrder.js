@@ -83,7 +83,7 @@ export default function PlaceOrder() {
                                 <Card.Text>
                                     <strong>Họ và tên:</strong> {cart.shippingAddress.fullName} <br />
                                     <strong>Địa chỉ:</strong> {cart.shippingAddress.address},
-                                    {cart.shippingAddress.wards}, {cart.shippingAddress.district},
+                                    {cart.shippingAddress.ward}, {cart.shippingAddress.district},
                                     {cart.shippingAddress.city}
                                 </Card.Text>
                             </div>
