@@ -39,7 +39,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <h1>Bảng điều khiển</h1>
+            <h1>Thống kê cửa hàng</h1>
             {loading ? (
                 <Loading />
             ) : error ? (
