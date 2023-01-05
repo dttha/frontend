@@ -9,6 +9,7 @@ import { Store } from "../../store";
 import { toast } from "react-toastify";
 import { getError } from "../utils";
 import { ip } from "../../configs/ip";
+import { isValidPhoneNumber } from "../../helper/validate";
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -74,6 +75,11 @@ export default function Signup() {
                         required
                         placeholder="Nhập số điện thoại"
                     />
+                    {phone && !isValidPhoneNumber(phone) &&
+                        <div style={{ color: 'red', fontSize: 13 }}>
+                            Số điện thoại không hợp lệ
+                        </div>
+                    }
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email</Form.Label>
