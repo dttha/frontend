@@ -117,7 +117,6 @@ function App() {
 
             <LinkContainer to="/">
               <Navbar.Brand className="font-color">mọt sách</Navbar.Brand>
-              {/* <img alt="logo" src={logo} className="logo" width="175" height="51" /> */}
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

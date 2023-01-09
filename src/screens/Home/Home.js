@@ -41,7 +41,7 @@ export default function Home() {
             <title>Book store</title>
         </Helmet>
         <Slider advertisements={advertisements}></Slider>
-        <div className="trend">Xu hướng mua sắm</div>
+        <div className="trend">Sách mới</div>
         <div className="products">
             {loading ? (
                 <Loading />

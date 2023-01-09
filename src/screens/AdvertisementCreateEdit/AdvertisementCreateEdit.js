@@ -106,7 +106,7 @@ export default function AdvertisementCreateEdit() {
             <Helmet>
                 <title>{isCreate ? "Thêm" : "Sửa"} ảnh quảng cáo ${advertisementId}</title>
             </Helmet>
-            <h1>{isCreate ? "Thêm" : "Sửa"} ảnh quảng cáo {advertisementId}</h1>
+            <h1>{isCreate ? "Thêm" : "Sửa"} ảnh quảng cáo {isCreate ? "" : advertisementId}</h1>
             {loading ? (
                 <Loading></Loading>
             ) : error ? (

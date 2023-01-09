@@ -192,10 +192,6 @@ export default function Order() {
             dispatch({ type: 'DELIVER_FAIL' });
         }
     }
-    const backHandler = (e) => {
-        e.preventDefault();
-        navigate('/placeorder')
-    }
 
     return loading ? (
         <Loading></Loading>
